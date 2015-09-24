@@ -1,0 +1,95 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Manufacturers</h1>
+    <p class="lead">Aircraft and Aircraft Parts Manufacturers</p>
+    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Manufacturers:</h1>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="manufacturer in aircraftManufacturers">
+        <li><a ui-sref="#" ng-click="showManufacturer(manufacturer)" tooltip="{{manufacturer.name}}">{{manufacturer.name}}<button type="button" class="close" ng-click="deleteManufacturer(manufacturer)">&times;</button></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <form class="manufacturer-form">
+    <label>Syncs in realtime across clients</label>
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Add a new manufacturer here." ng-model="newManufacturer">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary" ng-click="addManufacturer()">Add New</button>
+      </span>
+    </p>
+  </form>
+
+  <div class="manufacturer-detail" ng-show="showdetail">
+      <form name="form" class="manufacturer-detail-form">
+        <label>Syncs in realtime across clients - detail</label>
+        <div class="input-group">
+            <div class="row" ng-class="{'has-error': form.name.$invalid, 'has-success': !form.name.$invalid}">
+                <label for="name" class="control-label">Name</label>
+                <div class="col">
+                    <input type="text" id="name" name="name" class="form-control" value="{{aircraftManufacturer.name}}" ng-model="aircraftManufacturer.name" placeholder="Manufacturer name" required>
+                    <p class="help-block error" ng-show="form.name.$dirty && form.name.$error.required">please enter manufacturer name</p>
+                </div>
+            </div>
+            <div class="row" ng-class="{'has-error': form.address.$invalid, 'has-success': !form.address.$invalid}">
+                <label for="address" class="control-label">Address</label>
+                <div class="col">
+                    <input type="text" id="address" name="address" class="form-control" value="{{aircraftManufacturer.address}}" ng-model="aircraftManufacturer.address" placeholder="Manufacturer address" required>
+                    <p class="help-block error" ng-show="form.address.$dirty && form.address.$error.required">please enter manufacturer address</p>
+                </div>
+            </div>
+            <div class="row" ng-class="{'has-error': form.url.$invalid, 'has-success': !form.url.$invalid}">
+                <label for="url" class="control-label">Url</label>
+                <div class="col">
+                    <input type="url" id="url" name="url" class="form-control" value="{{aircraftManufacturer.url}}" ng-model="aircraftManufacturer.url" placeholder="Manufacturer url">
+                    <p class="help-block error" ng-show="form.url.$dirty && form.url.$error.required">please enter manufacturer url</p>
+                </div>
+            </div>
+            <div class="row" ng-class="{'has-error': form.email.$invalid, 'has-success': !form.email.$invalid}">
+                <label for="email" class="control-label">Email</label>
+                <div class="col">
+                    <input type="email" id="email" name="email" class="form-control" value="{{aircraftManufacturer.email}}" ng-model="aircraftManufacturer.email" placeholder="Manufacturer email">
+                    <p class="help-block error" ng-show="form.email.$dirty && form.email.$error.required">please enter manufacturer email</p>
+                    <p class="help-block error" ng-show="form.email.$error.email">Invalid email email</p>
+                </div>
+            </div>
+            <div class="row" ng-class="{'has-error': form.phone.$invalid, 'has-success': !form.phone.$invalid}">
+                <label for="phone" class="control-label">Phone</label>
+                <div class="col">
+                    <input type="tel" id="phone" name="phone" class="form-control" value="{{aircraftManufacturer.phone}}" ng-model="aircraftManufacturer.phone" placeholder="Manufacturer phone">
+                    <p class="help-block error" ng-show="form.phone.$dirty && form.phone.$error.required">please enter manufacturer phone</p>
+                </div>
+            </div>
+            <div class="row" ng-class="{'has-error': form.fax.$invalid, 'has-success': !form.fax.$invalid}">
+                <label for="fax" class="control-label">Fax</label>
+                <div class="col">
+                    <input type="tel" id="fax" name="fax" class="form-control" value="{{aircraftManufacturer.fax}}" ng-model="aircraftManufacturer.fax" placeholder="Manufacturer fax">
+                    <p class="help-block error" ng-show="form.fax.$dirty && form.fax.$error.required">please enter manufacturer fax</p>
+                </div>
+            </div>
+          <span class="input-group-btn2">
+            <button type="submit" class="btn btn-primary" ng-click="updateManufacturer(aircraftManufacturer)" 
+                ng-disabled="form.name.$dirty && form.name.$invalid || form.email.$dirty && form.email.$invalid">Update</button>
+          </span>
+        </div>
+      </form>
+    </div>
+</div>
+
+<div ui-view></div>
+
+<footer class="footer">
+  <div class="container">
+      <p>Angular Fullstack v2.0.13 |
+        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+  </div>
+</footer>

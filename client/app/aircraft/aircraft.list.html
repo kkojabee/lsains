@@ -1,0 +1,52 @@
+﻿<div class="container">
+  <div ng-show="dataLoading">
+    Aircraft Data Loading...
+  </div>
+  <div ng-show="!dataLoading">
+    <table class="table aircraft-list-table">
+      <thead>
+          <tr>
+            <td colspan="4">
+              <div class="form-inline">
+                  <button type="button" class="btn btn-sm btn-primary pull-right" ng-click="addAircraft('LSA')">
+                    <span class="glyphicon glyphicon-plus"></span>새기체
+                  </button>
+                  <input id="aircraftQuery" ng-model="aircraftQuery" class="input-sm form-control pull-right" placeholder="검색" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th ng-click="aircraftSort('reg_status')">등록상태
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='reg_status'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            </th>
+            <th ng-click="aircraftSort('reg_no')">등록부호
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='reg_no'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            </th>
+            <th ng-click="aircraftSort('model')">모델명
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='model'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            </th>
+            <th ng-click="aircraftSort('owner')">소유자
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='owner'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            </th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr dir-paginate="row in aircrafts|filter:aircraftSearch|orderBy:aircraftSortKey:aircraftReverse|itemsPerPage:10">
+            <td>{{enums.REG_STATUS[row.reg_status].label}}</td>
+            <td><a ui-sref="aircraft.detail" ng-click="showAircraft(row)">{{row.reg_no | lsaRegNo}}</a></td>
+            <td>{{row.model}}</td>
+            <td>{{row.owner}}</td>
+          </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+            <td colspan="4" class="text-center">
+              <dir-pagination-controls max-size="9" direction-links="true" boundary-links="true" />
+            </td>
+          </tr>
+      </tfoot>
+    </table>
+
+              
+  </div>
+</div>

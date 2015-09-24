@@ -1,0 +1,13 @@
+Maintenance
+해당 부품 (Component ID)
+정비 종류 INS(INSPECTION), TRP(TIME REPLACEMENT), REP(REPAIR), SB(SERVICE BULLETIN)
+정비 주기 25H, 50H, 100H, 200H, 300H, 500H, 6M, 1Y, 2Y, 3Y, 5Y, 6Y, Overhaul 등
+정비 제목(SB인 경우 발행 번호)
+반복 여부(SB인 경우)
+완료 일자
+완료 시간
+시간 선택(TSN/TSO)
+정비 기록
+
+Inspection
+해당 항공기 (Aircraft ID)
