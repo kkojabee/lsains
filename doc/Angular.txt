@@ -1,0 +1,36 @@
+AngularJS
+페이지 로딩 중에는 내용 보이지 않기: ngBind 또는 ngBindTemplate
+<title ng-bind-template="Google Phone Gallery: {{query}}">Google Phone Gallery</title>
+
+$http: We'll use Angular's $http service in our controller to make an HTTP request to your web server to fetch the data in the app/phones/phones.json file. $http is just one of several built-in Angular services that handle common operations in web apps. Angular injects these services for you where you need them.
+$http makes an HTTP GET request to our web server
+
+
+$ Prefix Naming Convention
+You can create your own services, and in fact we will do exactly that in step 11. As a naming convention, Angular's built-in services, Scope methods and a few other Angular APIs have a $ prefix in front of the name.
+
+The $ prefix is there to namespace Angular-provided services. To prevent collisions it's best to avoid naming your services and models anything that begins with a $.
+
+If you inspect a Scope, you may also notice some properties that begin with $$. These properties are considered private, and should not be accessed or modified.
+
+데이터 수 제한:
+In the PhoneListCtrl controller, pre-process the http response by limiting the number of phones to the first 5 in the list. Use the following code in the $http callback:
+
+$scope.phones = data.splice(0, 5);
+
+
+A Note About DI, Injector and Providers
+As you?noticed,?dependency injection?(DI) is at the core of AngularJS, so it's important for you to understand a thing or two about how it works.
+When the application bootstraps, Angular creates an injector that will be used to find and inject all of the services that are required by your app. The injector itself doesn't know anything about what?$http?or?$routeservices do, in fact it doesn't even know about the existence of these services unless it is configured with proper module definitions.
+The injector only carries out the following steps :
+? load the module definition(s) that you specify in your app
+? register all Providers defined in these module definitions
+? when asked to do so, inject a specified function and any necessary dependencies (services) that it lazily instantiates via their Providers.
+Providers are objects that provide (create) instances of services and expose configuration APIs that can be used to control the creation and runtime behavior of a service. In case of the?$route?service, the$routeProvider?exposes APIs that allow you to define routes for your application.
+Note:?Providers can only be injected into?config?functions. Thus you could not inject?$routeProviderinto?PhoneListCtrl.
+
+As you can see our phone-listing CSS class is combined together with the animation hooks that occur when items are inserted into and removed from the list:
+
+The ng-enter class is applied to the element when a new phone is added to the list and rendered on the page.
+The ng-move class is applied when items are moved around in the list.
+The ng-leave class is applied when they're removed from the list.

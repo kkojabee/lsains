@@ -1,0 +1,108 @@
+<div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span>&nbsp;부품 추가/수정</h4>
+</div>
+<div class="modal-body">
+    <form name="cform" class="form-horizontal" role="form">      
+      <div class="form-group" ng-class="{'has-error': cform.comp_type.$invalid, 'has-success': !cform.comp_type.$invalid}">
+            <div class="col-sm-2">
+                <label for="comp_type" class="control-label">부품타입</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="comp_type" ng-model="comp_type" ng-options="comptype.value as comptype.label for comptype in comptypes" ng-change="compTypeChange(comp_type)" ng-disabled="cmd === 'mod'" class="form-control"></select>
+                <div class="error-container" ng-show="cform.comp_type.$dirty && cform.comp_type.$invalid || !comp_type">
+                    <small class="help-block error" ng-show="cform.comp_type.$error || !comp_type">부품타입을 선택하여 주십시오.</small>
+                </div>
+            </div>
+      </div>
+      <div class="form-group" ng-show="comp_type" ng-class="{'has-error': cform.model.$invalid, 'has-success': !cform.model.$invalid}">
+            <div class="col-sm-2">
+                <label for="product" class="control-label">부품형식</label>
+            </div>
+            <div class="col-sm-10">
+                <div class="input-group input-group-sm" style="width:100%">
+                    <select name="product" ng-model="product" ng-options="product as product.full_name for product in products_f" ng-disabled="cmd === 'mod'" class="form-control"  placeholder="Select product type"></select>
+                    <div class="input-group-btn dropdown">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle">
+                            Action<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-click="productChange('add', null, comp_type)">추가</a></li>
+                            <li ng-show="product"><a ng-click="productChange('mod', product, comp_type)">수정</a></li>
+                            <li ng-show="product"><a ng-click="productChange('del', product, comp_type)">삭제</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="error-container" ng-show="cform.product.$dirty && cform.product.$invalid  || !product">
+                    <small class="help-block error" ng-show="cform.product.$error || !product">부품형식을 선택하여 주십시오.</small>
+                </div>
+            </div>
+      </div>
+      <div ng-show="product">
+            <div class="form-group"> 
+                <div class="col-sm-2">
+                    <label for="sn" class="control-label">일련번호</label>
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="sn" ng-model="component.sn" class="form-control" placeholder="Serial number"/>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <div class="col-sm-2">
+                    <label for="mfg_date" class="control-label">제작일자</label>
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="mfg_date" ng-model="component.mfg_date" class="form-control" placeholder="2015.01.01"  ng-pattern="/^(19|20)\d{2}\.\d{1,2}\.\d{1,2}$/"/>
+                    <div class="error-container" ng-show="cform.mfg_date.$dirty && cform.mfg_date.$invalid">
+                        <small class="help-block error" ng-show="cform.mfg_date.$error">정확한 제작일자를 선택하여 주십시오.(예:2015.05.31)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <div class="col-sm-2">
+                    <label for="tsn" class="control-label">TSN</label>
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="tsn" ng-model="component.tsn" class="form-control" placeholder="Time since new" ng-pattern="/^[0-9]*\.?([0-9]+)?$/"/>
+                    <div class="error-container" ng-show="cform.tsn.$dirty && cform.tsn.$invalid">
+                        <small class="help-block error" ng-show="cform.tsn.$error">TSN을 정확히 입력하여 주십시오(예:100.3)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <div class="col-sm-2">
+                    <label for="tso" class="control-label">TSO</label>
+                </div>
+                <div class="col-sm-10">
+                    <input type="text" name="tso" ng-model="component.tso" class="form-control" placeholder="Time since overhaul" ng-pattern="/^[0-9]*\.?([0-9]+)?$/"/>
+                    <div class="error-container" ng-show="cform.tso.$dirty && cform.tso.$invalid">
+                        <small class="help-block error" ng-show="cform.tso.$error">TSO를 정확히 입력하여 주십시오(예:100.3)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"> 
+                <div class="col-sm-2">
+                    <label for="installed" class="control-label">장착여부</label>
+                </div>
+                <div class="col-sm-10">
+                    <select name="installed" ng-model="component.installed" class="form-control">
+                          <option value="true" selected="selected">장착됨</option>
+                          <option value="false">탈착됨</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="etc" class="control-label">기타</label>
+                </div>
+                <div class="col-sm-10">
+                    <textarea name="etc" ng-model="component.etc" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+      </div>      
+    </form>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="cform.$invalid">Save</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

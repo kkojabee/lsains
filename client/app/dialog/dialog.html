@@ -1,0 +1,80 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>'Allo, 'Allo!</h1>
+    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+  </div>
+</header>
+
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-12'>
+      <h1>
+        Dialog Service Demo
+        <small>(with i18n capabilities)</small>
+      </h1>
+      <p class='text-muted'>
+        <small>(Bootstrap 3.1.1, AngularJS 1.2.16, Angular UI Bootstrap 0.11.0, Angular-Translate)</small>
+      </p>
+      <p>Demo of Angular dialog service using Bootstrap 3.1.1 with Angular &amp; Angular UI Bootstrap's modal service (0.11.0).</p>
+      <p>
+        As well as the use of
+        <a href='https://github.com/angular-translate'>Angular-Translate (https://github.com/angular-translate)</a>
+      </p>
+      <p>
+        This demo shows the ability to use different languages with your dialogs as well as switch lanugages on the fly (This works for the preset dialogs only, for the custom ones you need to set that up yourself - for obvious reasons).  You can also now set the size of the modal/dialog either small (sm) or large (lg), requires Bootstrap 3.1.1 and Angular-UI-Bootstrap 0.11.0.  In previous versions of the  "angular-dialog-service"
+        <a href='https://github.com/m-e-conroy/angular-dialog-service'>(https://github.com/m-e-conroy/angular-dialog-service)</a>
+        the two way "binding" between a custom dialog and its calling controller was always decoupled, now the two way  "binding" can be retained by using the "dialogsProvider.useCopy(false)."
+      </p>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-12'>
+      <button class='btn btn-danger' ng-click="launch('error')">Error Dialog</button>
+      <button class='btn btn-primary' ng-click="launch('wait')">Wait Dialog</button>
+      <button class='btn btn-default' ng-click="launch('notify')">Notify Dialog</button>
+      <button class='btn btn-success' ng-click="launch('confirm')">Confirm Dialog</button>
+      <button class='btn btn-warning' ng-click="launch('custom')">Custom Dialog</button>
+      <button class='btn btn-warning' ng-click="launch('custom2')">Custom Dialog 2</button>
+      <button class='btn btn-warning' ng-click="launch('custom3')">Custom Dialog 3</button>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-12'>
+      <br>
+      <p>
+        <strong>Confirmation:</strong>
+        {{confirmed}}
+      </p>
+      <p>
+        <strong>Name Enter(From Custom):</strong>
+        {{name}}
+      </p>
+      <p>
+        <strong>Custom 2 Value:</strong>
+        {{custom.val}}
+      </p>
+      <p>
+        <strong>Current Language:</strong>
+        {{language}}
+      </p>
+    </div>
+  </div>
+  <div class='row'>
+    <div class='col-md-12'>
+      <button class='btn btn-default' ng-click="setLanguage('en-US')">English</button>
+      <button class='btn btn-default' ng-click="setLanguage('es')">Spanish</button>
+      <button class='btn btn-default' ng-click="setLanguage('ko-KR')">Korean</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+      <p>Angular Fullstack v2.0.13 |
+        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
+  </div>
+</footer>

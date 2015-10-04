@@ -1,0 +1,66 @@
+<div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span>&nbsp;항공기제작자 추가/수정</h4>
+</div>
+<div class="modal-body">
+    <form name="bform" class="form-horizontal" role="form">
+        <div class="form-group" ng-class="{'has-error': bform.name.$invalid, 'has-success': !bform.name.$invalid}"> 
+            <label for="name" class="control-label col-sm-2">제작자명</label>
+            <div class="col-sm-10">
+                <input type="text" name="name" ng-model="builder.name" class="form-control" placeholder="Builder name" required/>
+                <div class="error-container" ng-show="bform.name.$dirty && bform.name.$invalid">
+                    <small class="help-block error" ng-show="bform.name.$error">제작자명을 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="address" class="control-label col-sm-2">주소</label>
+            <div class="col-sm-10">
+                <input type="text" address="address" ng-model="builder.address" class="form-control" placeholder="Builder address"/>
+                <div class="error-container" ng-show="bform.address.$dirty && bform.address.$invalid">
+                    <small class="help-block error" ng-show="bform.address.$error">주소를 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="url" class="control-label col-sm-2">홈페이지</label>
+            <div class="col-sm-10">
+                <input type="url" name="url" ng-model="builder.url" class="form-control" placeholder="Builder homepage url"/>
+                <div class="error-container" ng-show="bform.url.$dirty && bform.url.$invalid">
+                    <small class="help-block error" ng-show="bform.url.$error">홈페이지를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="email" class="control-label col-sm-2">이메일</label>
+            <div class="col-sm-10">
+                <input type="email" name="email" ng-model="builder.email" class="form-control" placeholder="Builder email"/>
+                <div class="error-container" ng-show="bform.email.$dirty && bform.email.$error.email">
+                    <small class="help-block error" ng-show="bform.email.$error.email">이메일을 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="phone" class="control-label col-sm-2">연락처</label>
+            <div class="col-sm-10">
+                <input type="tel" name="phone" ng-model="builder.phone" class="form-control" placeholder="Builder phone"/>
+                <div class="error-container" ng-show="bform.phone.$dirty && bform.phone.$invalid">
+                    <small class="help-block error" ng-show="bform.phone.$error">연락처를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="fax" class="control-label col-sm-2">팩스</label>
+            <div class="col-sm-10">
+                <input type="tel" name="fax" ng-model="builder.fax" class="form-control" placeholder="Builder fax"/>
+                <div class="error-container" ng-show="bform.fax.$dirty && bform.fax.$invalid">
+                    <small class="help-block error" ng-show="bform.fax.$error">팩스를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="bform.$invalid || saving">Save</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>
