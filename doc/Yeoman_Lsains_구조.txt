@@ -1,0 +1,98 @@
+Gruntfile.js (grunt 설정: 프로젝트 전체 설정 관리, bower, package, karma, protractor)
+bower.json (bower 설정: 외부 모듈 관리-주로 jquery, angular, bootstrap 등)
+package.json (npm 설정: npm 모듈 관리)
+karma.conf.js (karma 설정: unit test 환경)
+protractor.conf.js (protractor 설정: chrome webdriver)
+
+server (서버: express, mongoDB)
+	app.js (Main application 설정, /config/ 파일 로드, /routes 로드) 
+	routes.js (루트 라우터 등록: /api/things, /api/users, /auth, 미지정된 api, auth, components, app, bower_components, assets 하위 경로는 404 리턴, 기타 다른 경로는 index.html로 재지정)
+	api (서버 api: 주로 사용자에게 화면 없이 객체의 get, post 담당)
+		thing
+			index.js (Thing 라우터 등록: GET, POST, PUT, PATCH, DELETE, /api/things, /api/things/:id, 컨트롤러 로드)
+			thing.controller.js (Thing 컨트롤러, Thing 모델 로드)
+			thing.model.js (Thing 스키마 설정)
+			thing.socket.js (Thing 모델 변경시(post save, remove 이벤트) 소켓을 통해 업데이트 여부 broadcast)
+			thing.spec.js (Thing api 테스트)
+	user (사용자 가입/삭제/인증 처리)
+		index.js (User 인증 라우터 등록: GET, POST, PUT, PATCH, DELETE, /api/user/, /api/user/:id, /api/user/me, /api/user/:id/password)
+			user.controller.js (User 컨트롤러)
+			user.model.js (User 스키마, validation, 인증관련 methods)
+			user.model.spec.js (User api 테스트)
+	auth (인증관련 모듈, Passport)
+		facebook (facebook 인증 모듈 폴더)
+		google (google 인증 모듈  폴더)
+		local (local 인증 모듈  폴더)
+		twitter (twitter 인증 모듈  폴더)
+		auth.service.js (인증 체크 서비스)
+		index.js (인증 관련 모듈 로드)
+	components (공통모듈?)
+		errors
+			index.js (에러별 페이지 처리, 404 - pageNotFound)
+	config (설정)
+		evironment (환경)
+			index.js (전체 설정, 환경별 config 파일 로드)
+			development.js (개발환경 설정, mongoDB 경로, DB 리셋 여부)
+			productuion.js (릴리즈환경 설정)
+			test.js (테스트환경 설정)
+		express.js (node, express 설정)
+		local.env.js (local 환경 설정)
+		local.env.sample.js (local 환경 설정 샘플)
+		seed.js (DB 내용 리셋, 샘플/초기값 입력)
+		socketid.js (소켓 기본 설정, thing 소켓 설정 로드)
+	views (서버 제공 view)
+		404.html (404 error 발생시)
+
+e2e (end-to-end test)
+	main
+		main.po.js (메인뷰 오브젝트 설정)
+		main.spec.js (메인뷰 오브젝트 테스트)
+
+node_modules (노드 모듈)
+	...
+
+client (클라이언트 - angular app)
+	app.js (angular app 전체 설정, 인증 interceptor 설정)
+	app.css (app-wide style)
+	app (앱)
+		account (계정 관련)
+			account.js (로그인 상태에 따른 url, controller 설정)
+			login
+				login.contoller.js (로그인 컨트롤러, login 함수)
+				login.html, login.css (로그인 페이지, css)
+			settings
+				settings.controller.js (패스워드 변경 컨트롤러, changePassword 함수)
+				settings.html (패스워드 변경 페이지)
+			signup
+				signup.controller.js (가입 컨트롤러, register 함수)
+				signup.html (가입 페이지)
+		admin (관리자)
+			admin.js (admin url, controller 설정)
+			admin.controller.js (관리자 기능, remove user)
+			admin.html, admin.css (관리자 페이지)
+		main (주화면)
+			main.js (main url, controller 설정)
+			main.cotroller.js (main 컨트롤러, Thing 처리 함수, socket 싱크 활성화/비활성화)
+			main.html, main.css (main 페이지)
+	assets (리소스)
+		images (이미지)
+			...
+	bower_components (bower 모듈)
+		...
+	components (공통 컴포넌트)
+		auth
+			auth.service.js ( Auth factory: 로컬 사용자 인증 서비스, login, logout, createUser, changePassword, getCurrentUser, isLoggedIn, isLoggedInAsnc, isAdmin, getToken 함수) 
+			user.service.js (User factory: 사용자 서비스, chagePassword, get 함수)
+		modal
+			modal.service.js (Modal factory: 모달 다이얼로그 서비스, openModal 함수, confirm 클래스)
+			modal.html, modal.css (modal 페이지)
+		mongoose-error
+			mongoose-error.directive.js (mongooseError directive, 사용자 입력이 들어오면 서버 유효성 에러 clear)
+		navbar
+			navbar.controller.js (NavBarCtrl 컨트롤러, 사용자 상태 저장, logout 함수)
+			navbar.html (navbar 페이지)
+		socket
+			socket.service.js (socket factory, 소켓 기본설정 로드, syncUpdates, unsyncUpdates 함수)
+			socket.mock.js (socketMock factory, 소켓 unit 테스트용 mock)
+			
+			

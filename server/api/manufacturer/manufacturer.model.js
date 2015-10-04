@@ -2,20 +2,12 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    Base = require('../base/base.model'),
+    Person = require('../base/person.model'),
     EventNo = require('../base/eventno.model'),
     Enums = require('../base/enums');
 
 var model = 'manufacturer';
-
-var ManufacturerSchema = Base.add({
-  name: { type: String, trim: true },
-  address: { type: String, trim: true },
-  url: String,
-  email: String,
-  phone: String,
-  fax: String
-});
+var ManufacturerSchema = Person.Schema;
 
 ManufacturerSchema.pre('save', function(next) {
   var doc = this;

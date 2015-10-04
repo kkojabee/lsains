@@ -1,0 +1,6 @@
+<a>
+	<span bind-html-unsafe="match.label | typeaheadHighlight:query" />
+	<small ng-show="match.model.mobile" bind-html-unsafe="match.model.mobile" />
+	<small ng-show="!match.model.mobile && match.model.phone" bind-html-unsafe="match.model.phone" />
+	<small ng-show="match.model.company" bind-html-unsafe="match.model.company" />
+</a>

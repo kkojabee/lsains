@@ -25,6 +25,8 @@ function onConnect(socket) {
   require('../api/component/component.socket').register(socket);
   require('../api/comp/comp.socket').register(socket);
   require('../api/aircraft/aircraft.socket').register(socket);
+  require('../api/inspection/inspection.socket').register(socket);
+  require('../api/owner/owner.socket').register(socket);
   // afile event is not needed
   // require('../api/afile/afile.socket').register(socket);
 }

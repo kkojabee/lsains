@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
     BaseSchema = require('../base/base.model'), 
     EventNo = require('../base/eventno.model'),
     Component = require('../component/component.model'),
-    Builder = require('../builder/builder.model'),    
+    Builder = require('../builder/builder.model'),
+    Owner = require('../owner/owner.model'),
     AFile  = require('../afile/afile.model'),
     Enums = require('../base/enums');
 
@@ -14,7 +15,7 @@ var model = 'aircraft';
 var AircraftSchema = BaseSchema.add({
     lsa_category: { type: String, default: Enums.LSA_CATEGORY.ULV },
     lsa_type: String,
-    reg_no: { type: String, required: true, index: true },
+    reg_no: { type: String, required: true, index: {unique:true} },
     sn: String,
     reg_status: String,
     reg_date: String,
@@ -22,8 +23,6 @@ var AircraftSchema = BaseSchema.add({
     mfg_date: String,
     no_seat: Number,
     gear_type: String,
-    owner: String,
-    phone: String,
     place: String,
     ulv_no: String,
     region: String,
@@ -32,6 +31,7 @@ var AircraftSchema = BaseSchema.add({
     ins_due: Date,
     profit: { type: Boolean, default: false },
     components: [Component.ComponentSchema],
+    _owner: { type: Schema.Types.ObjectId, ref: 'Owner'},
     _bld_asm: { type: Schema.Types.ObjectId, ref: 'Builder' },
     _bld_kit: { type: Schema.Types.ObjectId, ref: 'Builder' },
     _bld_dsn: { type: Schema.Types.ObjectId, ref: 'Builder' }

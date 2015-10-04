@@ -34,8 +34,14 @@
   margin-right: 4px;
 }
 
+.aircraft-detail-form ul.dropdown-menu {
+  min-width: 64px !important;
+}
+
 .btn.btn-sm + ul.dropdown-menu > li > a {
 	font-size: 12px;
+  padding: 3px 10px !important;
+  text-align: center;
 }
 
 .aircraft-detail-form table {

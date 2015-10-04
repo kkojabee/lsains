@@ -18,6 +18,8 @@ var Component = require('../api/component/component.model');
 var Comp = require('../api/comp/comp.model');
 var Aircraft = require('../api/aircraft/aircraft.model');
 var AFile = require('../api/afile/afile.model');
+var Inspection = require('../api/inspection/inspection.model');
+var Owner = require('../api/owner/owner.model');
 var Enums = require('../api/base/enums');
 
 EventNo.find({}).remove(function () {
@@ -221,6 +223,86 @@ var productSeeding = function () {
 
             Product.find({}).sort({comp_type: 1, model: 1, sub_model: 1}).exec(function (err, objs) {
                 products = objs;
+                ownerSeeding();
+            });
+        });
+    });
+}
+
+var owners = [];
+var ownerSeeding = function () {
+    Owner.find({}).remove(function () {
+        Owner.create({
+            name: 'Unknown',
+            address: 'Unknown',
+            url: '',
+            email: '',
+            phone: '',
+            fax: '',
+            lsa_category: '',
+            lsa_type: ''
+        }, {
+            name: 'Rotax Aircraft Engines',
+            address: 'BRP-Powertrain GmbH & Co KG, Rotaxstrasse 1, A-4623 Gunskirchen, Austria',
+            url: 'http://www.flyrotax.com',
+            email: 'info@flyrotax.com',
+            phone: '+43 7246 601-0',
+            fax: '+43 7246 601-6370',
+            lsa_category: 'LSA',
+            lsa_type: 'AIRPLANE'
+        }, {
+            name: 'I.C.P. s.r.l.',
+            address: 'S.P.16 - km 15,150 - 14022 Castelnuovo Don Bosco (AT), Italy',
+            url: 'http://www.icpaviazione.it',
+            email: 'info@icp.it',
+            phone: '011 9927503',
+            fax: '011 9927266',
+            lsa_category: 'LSA',
+            lsa_type: 'AIRPLANE'
+        }, {
+            name: 'TECNAM S.r.l.',
+            address: 'Via Maiorise 81043 Capua (CE), Italy',
+            url: 'http://tecnam.com/',
+            email: 'technical.support@tecnam.com',
+            phone: ' +39 0823 622297',
+            fax: '+39 0823 622899',
+            lsa_category: 'LSA',
+            lsa_type: 'AIRPLANE'
+        },{
+            name: 'Woodcomp s.r.o.',
+            address: 'Vodolská 4 250 70 - Odolena Voda, Czech Republic',
+            url: 'http://www.woodcomp.cz/',
+            email: 'info@woodcomp.cz',
+            phone: '00420 283 971 309',
+            fax: '00420 283 970 286',
+            lsa_category: 'LSA',
+            lsa_type: 'HELICOPTER'
+        },{
+            name: '김영호',
+            company: '에어랜드항공',
+            address: '경북 구미시 선산동 원리 1057-166 푸른하늘 비행장',
+            url: '',
+            email: 'airland21@hanmail.net',
+            mobile: '010-2502-2676',
+            phone: '054-977-2676',
+            fax: '054-977-9901',
+            lsa_category: 'LSA',
+            lsa_type: 'AIRPLANE'
+        },{
+            name: '이준호',
+            address: '충남 공주시 의당면 수촌리 정안이착륙장',
+            company: '공주경비행기',
+            url: '',
+            email: 'ds3cwv@hanmail.net',
+            mobile: '010-5425-2676',
+            phone: '041-852-8226',
+            fax: '041-854-8226',
+            lsa_category: 'LSA',
+            lsa_type: 'AIRPLANE'
+        }, function () {
+            console.log('finished populating owners');
+            Owner.find({}).sort({ name: 1 }).exec(function (err, data) {
+                owners = data;
                 aFilesSeeding();
             });
         });
@@ -232,16 +314,16 @@ var aImages = [];
 var aFilesSeeding = function () {
     AFile.find({}).remove(function () {
         AFile.create([
-        { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "490330e8-a789-46dc-8e6f-ff8dca4aaa0e", "file_name": "Z163886_493015239671_5086621_n.jpg", "ext_name": "jpg" },
-        { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "c78b404d-04f7-46a5-8917-c03ff9bbb73c", "file_name": "cctd1-1.png", "ext_name": "png" },
-        { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "92a2979e-d193-4cc4-9328-494387f1525b", "file_name": "00CTLS.png", "ext_name": "png" },
-        { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "539f854e-fb64-436b-9334-0837676f56fa", "file_name": "dark-black.png", "ext_name": "png" },
-        { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "3fc73de0-e36f-4c44-a620-9871f328dd76", "file_name": "data3.jpg", "ext_name": "jpg" },
-        { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "403a81b7-8ec3-443d-b45a-a5f38a49c6e8", "file_name": "img.jpg", "ext_name": "jpg" },
-        { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "62986f6b-ad09-4261-8502-4f5682e95ae9", "file_name": "wallpaper.jpg", "ext_name": "jpg" },
-        { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "ed596e8a-ccc2-4e97-807c-bec5481ac6d3", "file_name": "HLC001.jpg", "ext_name": "jpg" },
-        { "file_type": "GEN", "mime_type": "application/haansofthwp", "uuid_name": "3b79c699-0dd4-4a37-9e69-74e41dfd6923", "file_name": "HLC196 인증검사 신청 서류 사전 검토 결과.hwp", "ext_name": "hwp" },
-        { "file_type": "GEN", "mime_type": "application/pdf", "uuid_name": "9380e028-dfb2-42ca-8a8d-27ec8ca4c711", "file_name": "SB024.pdf", "ext_name": "pdf" }
+            { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "490330e8-a789-46dc-8e6f-ff8dca4aaa0e", "file_name": "Z163886_493015239671_5086621_n.jpg", "ext_name": "jpg" },
+            { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "c78b404d-04f7-46a5-8917-c03ff9bbb73c", "file_name": "cctd1-1.png", "ext_name": "png" },
+            { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "92a2979e-d193-4cc4-9328-494387f1525b", "file_name": "00CTLS.png", "ext_name": "png" },
+            { "file_type": "GEN", "mime_type": "image/png", "uuid_name": "539f854e-fb64-436b-9334-0837676f56fa", "file_name": "dark-black.png", "ext_name": "png" },
+            { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "3fc73de0-e36f-4c44-a620-9871f328dd76", "file_name": "data3.jpg", "ext_name": "jpg" },
+            { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "403a81b7-8ec3-443d-b45a-a5f38a49c6e8", "file_name": "img.jpg", "ext_name": "jpg" },
+            { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "62986f6b-ad09-4261-8502-4f5682e95ae9", "file_name": "wallpaper.jpg", "ext_name": "jpg" },
+            { "file_type": "GEN", "mime_type": "image/jpeg", "uuid_name": "ed596e8a-ccc2-4e97-807c-bec5481ac6d3", "file_name": "HLC001.jpg", "ext_name": "jpg" },
+            { "file_type": "GEN", "mime_type": "application/haansofthwp", "uuid_name": "3b79c699-0dd4-4a37-9e69-74e41dfd6923", "file_name": "HLC196 인증검사 신청 서류 사전 검토 결과.hwp", "ext_name": "hwp" },
+            { "file_type": "GEN", "mime_type": "application/pdf", "uuid_name": "9380e028-dfb2-42ca-8a8d-27ec8ca4c711", "file_name": "SB024.pdf", "ext_name": "pdf" }
         ],
         function (err, results) {
             if (err) { console.log('err: ', err); }
@@ -274,14 +356,13 @@ var aircraftSeeding = function () {
         mfg_date: '2009-04-27',
         no_seat: 2,
         gear_type: 'LAND',
-        owner: '김영호',
-        phone: '010-2502-2676',
         place: '경북 구미시 선산동 원리 1057-166 푸른하늘 비행장',
         ulv_no: 'B2086',
         region: 'KB',
         acenter: 'BC',
         reg_type: 'ULV',
         ins_due: '',
+        _owner: owners[5]._id,
         components: [{
             sn: '08-07-51-741',
             mfg_date: '2009.04.27',
@@ -315,14 +396,13 @@ var aircraftSeeding = function () {
         mfg_date: '2010-08-16',
         no_seat: 2,
         gear_type: 'LAND',
-        owner: '이준호',
-        phone: '010-5425-2676',
         place: '충남 공주시 의당면 수촌리 정안이착륙장',
         ulv_no: 'B2086',
         region: 'KB',
         acenter: 'BC',
         reg_type: 'ULV',
         ins_due: '',
+        _owner: owners[6]._id,
         components: [{
             sn: '10-07-54-0012',
             mfg_date: '2010.08.16',
@@ -349,7 +429,7 @@ var aircraftSeeding = function () {
     var aircrafts = [];
     var acount = 30;
     for (var i = 0; i < acount; i++) {
-        var reg_no = 'HLC' + (100 + Math.floor(Math.random() * 99));
+        var reg_no = 'HLC' + (100 + i);
         var aircrafto = air_org[i%2];
         var aircraft = _.clone(aircrafto);
         aircraft.components = _.clone(aircrafto.components);

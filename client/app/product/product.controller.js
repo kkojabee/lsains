@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('insApp')
-    .controller('ProductCtrl', function ($scope, $http, $stateParams, $q, socket, ApiService, ProductService, ManufacturerService, Enums) {
+    .controller('ProductCtrl', function ($scope, $http, $stateParams, $q, socket, ApiService, Enums) {
     $scope.aircraftProduct = null;
     $scope.aircraftProductId = $stateParams.id;
     $scope.newProduct = null;
@@ -53,19 +53,23 @@ angular.module('insApp')
 
     $scope.updateProduct = function(product) {
         console.log('product = ', product);
-        ProductService.update(product);
+        ApiService.update('product', product);
     }
     
     $scope.addProduct = function() {
-      if($scope.newProduct === '') {
-        return;
-      }
-      ProductService.add({ model: $scope.newProduct, comp_type: $scope.comptypes[0].value, _manufacturer: $scope.manufacturers[0]._id });
-      $scope.newProduct = '';
+        if($scope.newProduct === '') {
+            return;
+        }
+        ApiService.add('product', { 
+            model: $scope.newProduct, 
+            comp_type: $scope.comptypes[0].value, 
+            _manufacturer: $scope.manufacturers[0]._id 
+        });
+        $scope.newProduct = '';
     };
 
     $scope.deleteProduct = function(product) {
-      ProductService.delete(product._id);
+        ApiService.delete('product', product._id);
     };
 
     $scope.$on('product', function (event, data) {

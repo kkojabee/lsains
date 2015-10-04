@@ -11,3 +11,8 @@ Maintenance
 
 Inspection
 해당 항공기 (Aircraft ID)
+
+Owner
+접수대장에 등록된 Owner도 삭제 금지(Aircraft에 등록된 Owner는 삭제 금지 처리 완료)
+
+

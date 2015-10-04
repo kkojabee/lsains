@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * Using Rails-like standard naming convention for endpoints.
  * GET     /products              ->  index
  * POST    /products              ->  create
@@ -31,10 +31,10 @@ exports.index = function (req, res) {
         .populate(popQuery)
         .sort(sort).exec(function (err, data) {
             if (err) { return handleError(res, err); }
-            
             product.count(search, function (err, count) {
                 if (err) { return handleError(res, err); }
                 res.setHeader('Cache-Control', 'public, max-age=0');
+                
                 return res.json(200, {
                     count: count,
                     result: data,
@@ -53,15 +53,7 @@ exports.show = function(req, res) {
     });
 };
 
-var makeFullName = function (product) {
-    return product.model +
-            (product.sub_model ? ' ' + product.sub_model : '') +
-            (product.revision ? ' ' + product.revision : '') +
-            (product._manufacturer && product._manufacturer._id !== undefined ? ' (' + product._manufacturer.name + ')' : '');
-}
-
 var unpopulateProduct = function (body) {
-    body.full_name = makeFullName(body);
     if (body._manufacturer !== undefined && body._manufacturer._id !== undefined)
         body._manufacturer = mongoose.Types.ObjectId(body._manufacturer._id);
 
@@ -84,7 +76,7 @@ var unpopulateProduct = function (body) {
 // Creates a new product in the DB.
 exports.create = function (req, res) {
     if (req.body.model === undefined || req.body.model.length < 1) {
-        return handleError(res, "¸ðµ¨¸íÀ» ÀÔ·ÂÇÏ¿© ÁÖ½Ê½Ã¿À");
+        return handleError(res, "ëª¨ë¸ëª…ì„ ìž…ë ¥í•˜ì—¬ ì£¼ì‹­ì‹œì˜¤");
     }
     unpopulateProduct(req.body);
     product.create(req.body, function (err, data) {
@@ -129,7 +121,7 @@ exports.destroy = function (req, res) {
         aircraft.findOne({ "components._product": product._id }, function (err, result) {
             console.log('err', err, 'result', result);
             if (err) { return handleError(res, err); }
-            if (result) { return handleError(res, 'Ç×°ø±â ºÎÇ°¿¡ »ç¿ëÁßÀÎ ºÎÇ°Çü½ÄÀº »èÁ¦ÇÒ ¼ö ¾ø½À´Ï´Ù.'); }
+            if (result) { return handleError(res, 'í•­ê³µê¸° ë¶€í’ˆì— ì‚¬ìš©ì¤‘ì¸ ë¶€í’ˆí˜•ì‹ì€ ì‚­ì œí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.'); }
 
             product.remove(function (err) {
                 if (err) { return handleError(res, err); }

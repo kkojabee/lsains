@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('insApp')
-    .controller('AircraftCtrl', function ($scope, $http, $stateParams, $filter, $q, $state, socket, ApiService, Enums, ngTableParams, dialogs) {
+    .controller('AircraftCtrl', function ($scope, $http, $stateParams, $filter, $q, $state, socket, ApiService, Enums, dialogs) {
     $scope.aircraft = null;
     $scope.aircraftId = $stateParams.id;
     $scope.newAircraft = null;
@@ -17,7 +17,8 @@ angular.module('insApp')
         ApiService.async('manufacturer'), 
         ApiService.async('builder'), 
         ApiService.async('product'), 
-        ApiService.async('aircraft')
+        ApiService.async('aircraft'),
+        ApiService.async('owner'),
     ]).then(function(response) {
         angular.forEach(response, function(data) {
             $scope.results[data.type] = data.result;
@@ -27,6 +28,7 @@ angular.module('insApp')
         $scope.builders = $scope.results['builder'];
         $scope.products = $scope.results['product'];
         $scope.aircrafts = $scope.results['aircraft'];
+        $scope.owners  = $scope.results['owner'];
         
         setModelFilterData();
         $scope.loadingError = null;
@@ -83,6 +85,10 @@ angular.module('insApp')
         }
     };
 
+    $scope.getLsaTypeString = function(lsa_type) {
+        return Enums.AIRCRAFT_TYPE[lsa_type].slabel;
+    }
+
     $scope.selchange = function() {
         console.log('selectedItem = ', $scope.aircraft._bld_asm);
     };
@@ -91,46 +97,65 @@ angular.module('insApp')
         $scope.showdetail = false;
     };
     
-    var getComponentsSubDocs = function(aircraft) {
-        aircraft.components.forEach(function(comp) {
-            var prd_id = null;
-            if (comp._product._id === undefined) 
-                prd_id = comp._product
-            else
-                prd_id = comp._product._id;
-
-            var product = _.find($scope.products, { _id: prd_id });
-            if (!product)
-                console.log('product find error!');
-            else {
-                comp._product = product;
-
-                var mfg_id = null;
-                if (product._manufacturer._id === undefined) 
-                    mfg_id = product._manufacturer;
+    var getSubDocs = function(aircraft) {
+       /* sub functions */
+        var getComponentsSubDocs = function(aircraft) {
+            aircraft.components.forEach(function(comp) {
+                var prd_id = null;
+                if (comp._product._id === undefined) 
+                    prd_id = comp._product
                 else
-                    mfg_id = product._manufacturer._id;
+                    prd_id = comp._product._id;
 
-                var manufacturer = _.find($scope.manufacturers, { _id: mfg_id });
-                if (!manufacturer)
-                    console.log('manufacturer find error!');
-                else 
-                    comp._product._manufacturer = manufacturer;
-            }
-        });
-    }
+                var product = _.find($scope.products, { _id: prd_id });
+                if (!product)
+                    console.log('product find error!');
+                else {
+                    comp._product = product;
 
-    var getBuilders = function(aircraft) {
-        console.log('getBuilders aircraft._bld_asm: ', aircraft._bld_asm);
-        if (aircraft._bld_asm._id === undefined) {
-            aircraft._bld_asm = _.find($scope.builders, { _id: aircraft._bld_asm });
-            aircraft._bld_kit = _.find($scope.builders, { _id: aircraft._bld_kit });
-            aircraft._bld_dsn = _.find($scope.builders, { _id: aircraft._bld_dsn });
+                    var mfg_id = null;
+                    if (product._manufacturer._id === undefined) 
+                        mfg_id = product._manufacturer;
+                    else
+                        mfg_id = product._manufacturer._id;
+
+                    var manufacturer = _.find($scope.manufacturers, { _id: mfg_id });
+                    if (!manufacturer)
+                        console.log('manufacturer find error!');
+                    else 
+                        comp._product._manufacturer = manufacturer;
+                }
+            });
         }
-    };
+
+        var getBuilders = function(aircraft) {
+            console.log('getBuilders aircraft._bld_asm: ', aircraft._bld_asm);
+            if (aircraft._bld_asm._id === undefined) {
+                aircraft._bld_asm = _.find($scope.builders, { _id: aircraft._bld_asm });
+                aircraft._bld_kit = _.find($scope.builders, { _id: aircraft._bld_kit });
+                aircraft._bld_dsn = _.find($scope.builders, { _id: aircraft._bld_dsn });
+            }
+        };
+
+        var getOwner = function(aircraft) {
+            if (aircraft._owner) {
+                if (aircraft._owner._id === undefined) 
+                    aircraft._owner = _.find($scope.owners, { _id: aircraft._owner });
+                else 
+                    aircraft._owner = _.find($scope.owners, { _id: aircraft._owner._id });
+            }
+        };
+
+        getOwner(aircraft);
+        getBuilders(aircraft);
+        getComponentsSubDocs(aircraft);
+    }
     
     $scope.showAircraft = function(aircraft) {
         $scope.aircraft = jQuery.extend(true, {}, aircraft);
+        
+        getSubDocs($scope.aircraft);
+
         if (!angular.isDefined($scope.aircraft._afiles))
             $scope.aircraft._afiles = [];
         if (!angular.isDefined($scope.aircraft._aimages))
@@ -138,13 +163,12 @@ angular.module('insApp')
         $scope.afiles = $scope.aircraft._afiles;
         $scope.aimages = $scope.aircraft._aimages;
 
-        getBuilders($scope.aircraft);
-        getComponentsSubDocs($scope.aircraft);
         $scope.catSelChange(aircraft.lsa_cat);
         $scope.showdetail = true;
         $scope.showcmd = 'mod';
     };
 
+    /* addAircraft: temporory function */
     $scope.addAircraft = function(lsa_cat) {
         $scope.aircraft = {
             lsa_cat: lsa_cat, 
@@ -185,39 +209,16 @@ angular.module('insApp')
         $state.go('aircraft.detail');
     };
     
-    $scope.dataLoading = false;
-    $scope.updateAircraft = function(aircraft) {
-        aircraft.reg_no = aircraft.reg_no.replace("HL-C", "HLC");
-        $scope.dataLoading = true;
-        $scope.saving = true;
-        $scope.updating = true;
-
-        if ($scope.showcmd === 'add') {
-            ApiService.add('aircraft', aircraft)
-                .then(function (results) {
-                    dialogs.notify('Notification', aircraft.reg_no.replace("HLC", "HL-C") + ' created successfully.');
-                }, function (err) {
-                    console.log('then err called, err: ', err);
-                    dialogs.error('Error', err);
-                }).finally(function () {
-                    $scope.dataLoading = false;
-                    $scope.saving = false;
-                });    
+    $scope.$on('owner', function (event, data) {
+        var event = data.event;
+        var item = data.item;
+        if (event == 'updated') {
+            var afts = $filter('filter')($scope.aircrafts, { _owner: {_id: item._id }});
+            afts.forEach(function(aircraft) {
+                aircraft._owner = item;
+            });
         }
-        else {
-            ApiService.update('aircraft', aircraft)
-                .then(function (results) {
-                    dialogs.notify('Notification', aircraft.reg_no.replace("HLC", "HL-C") + ' updated successfully.');
-                }, function (err) {
-                    console.log('then err called, err: ', err);
-                    dialogs.error('Error', err);
-                }).finally(function () {
-                    $scope.dataLoading = false;
-                    $scope.saving = false;
-                });    
-        }
-        
-    };
+    });
 
     /*
     $scope.$on('product', function (event, data) {

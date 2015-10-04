@@ -1,0 +1,70 @@
+<div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span>&nbsp;부품형식 추가/수정</h4>
+</div>
+<div class="modal-body">
+    <div ng-show="product.model">
+        <h4>{{getModelName()}}</h4>
+    </div>
+    <form name="cform" class="form-horizontal" role="form">      
+      <div class="form-group" ng-class="{'has-error': cform.comp_type.$invalid, 'has-success': !cform.comp_type.$invalid}">
+            <div class="col-sm-2">
+                <label for="comp_type" class="control-label">부품타입</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="comp_type" ng-model="product.comp_type" ng-options="comptype.value as comptype.label for comptype in comptypes" ng-change="compTypeChange(comp_type)" ng-disabled="true" class="form-control"></select>
+            </div>
+      </div>
+      <div class="form-group" ng-show="product.comp_type" ng-class="{'has-error': cform.model.$invalid, 'has-success': !cform.model.$invalid}">
+            <div class="col-sm-2">
+                <label for="model" class="control-label">모델명</label>
+            </div>
+            <div class="col-sm-10">
+                <div>
+                    <div class="col-sm-5">
+                        <input type="text" name="model" ng-model="product.model" class="form-control" placeholder="model/type" required/>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" name="sub_model" ng-model="product.sub_model" class="form-control" placeholder="submodel"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" name="revision" ng-model="product.revision" class="form-control" placeholder="revision"/>
+                    </div>
+                </div>
+                <div class="error-container" ng-show="cform.model.$dirty && cform.model.$invalid  || !product.model">
+                    <small class="help-block error" ng-show="cform.model.$error || !model">모델명을 입력하여 주십시오.</small>
+                </div>
+            </div>
+      </div>
+      <div class="form-group" ng-show="product.comp_type" ng-class="{'has-error': cform.model.$invalid, 'has-success': !cform.model.$invalid}">
+            <div class="col-sm-2">
+                <label for="_manufacturer" class="control-label">제작자</label>
+            </div>
+            <div class="col-sm-10">
+                <div class="input-group input-group-sm" style="width:100%">
+                    <select name="_manufacturer" ng-model="product._manufacturer" ng-options="manufacturer.name for manufacturer in manufacturers track by manufacturer._id" class="form-control" required></select>
+                    <div class="input-group-btn dropdown">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle">
+                            Action<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ng-click="mfgChange('add', null)">추가</a></li>
+                            <li ng-show="product._manufacturer"><a ng-click="mfgChange('mod', product._manufacturer)">수정</a></li>
+                            <li ng-show="product._manufacturer"><a ng-click="mfgChange('del', product._manufacturer)">삭제</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="error-container" ng-show="form._manufacturer.$dirty && form._manufacturer.$invalid">
+                    <small class="help-block error" ng-show="form._manufacturer.$error">제작자를 선택하여 주십시오.</small>
+                </div>
+            </div>
+      </div>
+    </form>
+</div>
+<div ng-controller="AFileCtrl" class="form-group">
+    <a-files></a-files>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="cform.$invalid">Save</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

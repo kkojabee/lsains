@@ -14,7 +14,6 @@ var ProductSchema = BaseSchema.add({
   model: { type: String, trim: true },
   sub_model: { type: String, trim: true },
   revision: { type: String, trim: true, default: '' },
-  full_name: { type: String, trim: true },
   _manufacturer: { type: Schema.Types.ObjectId, ref: 'Manufacturer' },
   WSC: Boolean,
   AIRPLANE: Boolean,
@@ -28,6 +27,15 @@ var ProductSchema = BaseSchema.add({
   HANGGLIDER: Boolean,
   PARACHUTE: Boolean
 });
+
+ProductSchema.virtual('full_name').get(function () {
+  return this.model +
+        (this.sub_model ? ' ' + this.sub_model : '') +
+        (this.revision ? ' ' + this.revision : '') +
+        (this._manufacturer && this._manufacturer._id !== undefined ? ' (' + this._manufacturer.name + ')' : '');
+});
+ProductSchema.set('toObject', { virtuals: true })
+ProductSchema.set('toJSON', { virtuals: true });
 
 ProductSchema.pre('save', function (next) {
     var doc = this;

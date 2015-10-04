@@ -14,9 +14,10 @@ var mongoose = require('mongoose');
 var aircraft = require('./aircraft.model');
 var afile = require('../afile/afile.model');
 var popQuery = [
+                { path: '_owner', model: 'Owner' },
                 { path: '_afiles', model: 'AFile' },
                 { path: '_aimages', model: 'AFile'}];
-/*
+/* 
                 { path: '_bld_asm', model: 'Builder' },
                 { path: '_bld_kit', model: 'Builder' },
                 { path: '_bld_dsn', model: 'Builder' },

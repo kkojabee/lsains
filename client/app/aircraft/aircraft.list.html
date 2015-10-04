@@ -22,11 +22,14 @@
             <th ng-click="aircraftSort('reg_no')">등록부호
               <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='reg_no'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
             </th>
+            <th ng-click="aircraftSort('lsa_type')">종류
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='lsa_type'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            </th>
             <th ng-click="aircraftSort('model')">모델명
               <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='model'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
             </th>
-            <th ng-click="aircraftSort('owner')">소유자
-              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='owner'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
+            <th ng-click="aircraftSort('_owner.name')">소유자
+              <span class="glyphicon sort-icon" ng-show="aircraftSortKey=='_owner.name'" ng-class="{'glyphicon-chevron-up':aircraftReverse,'glyphicon-chevron-down':!aircraftReverse}"></span>
             </th>
           </tr>
       </thead>
@@ -34,8 +37,9 @@
           <tr dir-paginate="row in aircrafts|filter:aircraftSearch|orderBy:aircraftSortKey:aircraftReverse|itemsPerPage:10">
             <td>{{enums.REG_STATUS[row.reg_status].label}}</td>
             <td><a ui-sref="aircraft.detail" ng-click="showAircraft(row)">{{row.reg_no | lsaRegNo}}</a></td>
+            <td>{{enums.AIRCRAFT_TYPE[row.lsa_type].slabel}}</td>
             <td>{{row.model}}</td>
-            <td>{{row.owner}}</td>
+            <td>{{row._owner.name}}</td>
           </tr>
       </tbody>
       <tfoot>

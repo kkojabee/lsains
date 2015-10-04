@@ -2,19 +2,11 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    Base = require('../base/base.model'),
+    Person = require('../base/person.model'),
     EventNo = require('../base/eventno.model');
 
 var model = 'builder';
-
-var BuilderSchema = Base.add({
-  name: { type: String, trim: true },
-  address: { type: String, trim: true },
-  url: String,
-  email: String,
-  phone: String,
-  fax: String
-});
+var BuilderSchema = Person.Schema;
 
 BuilderSchema.pre('save', function(next) {
   var doc = this;

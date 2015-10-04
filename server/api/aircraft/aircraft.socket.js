@@ -5,7 +5,8 @@
 'use strict';
 
 var aircraft = require('./aircraft.model');
-var popQuery = [{ path: '_bld_asm', model: 'Builder' },
+var popQuery = [{ path: '_owner', model: 'Owner' },
+                { path: '_bld_asm', model: 'Builder' },
                 { path: '_bld_kit', model: 'Builder' },
                 { path: '_bld_dsn', model: 'Builder' },
                 { path: '_afiles', model: 'AFile' },

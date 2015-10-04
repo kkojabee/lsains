@@ -17,6 +17,8 @@ module.exports = function (app) {
     app.use('/api/components', require('./api/component'));
     app.use('/api/aircrafts', require('./api/aircraft'));
     app.use('/api/afiles', require('./api/afile'));
+    app.use('/api/inspections', require('./api/inspection'));
+    app.use('/api/owners', require('./api/owner'));
 
     app.use('/auth', require('./auth'));
 

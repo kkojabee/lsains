@@ -24,17 +24,17 @@ angular.module('insApp')
       };
 
       var AIRCRAFT_TYPE = {
-          WSC: { label: '체중이동형', value: 'WSC' },
-          AIRPLANE: { label: '타면조종형', value: 'AIRPLANE' },
-          GYROPLANE: { label: '자이로플레인', value: 'GYROPLANE' },
-          PPG: { label: '동력패러글라이더', value: 'PPG' },
-          BALOON: { label: '기구류', value: 'BALOON' },
-          HELICOPTER: { label: '헬리콥터', value: 'HELICOPTER' },
-          UAS: { label: '무인동력비행장치', value: 'UAS' },
-          AIRSHIP: { label: '무인비행선', value: 'AIRSHIP' },
-          PARAGLIDER: { label: '패러글라이더', value: 'PARAGLIDER' },
-          HANGGLIDER: { label: '행글라이더', value: 'HANGLIDER' },
-          PARACHUTE: { label: '낙하산류', value: 'PARACHUTE' },
+          WSC: { label: '체중이동형', slabel: '체중', value: 'WSC' },
+          AIRPLANE: { label: '타면조종형', slabel: '타면', value: 'AIRPLANE' },
+          GYROPLANE: { label: '자이로플레인', slabel: '자이로', value: 'GYROPLANE' },
+          PPG: { label: '동력패러글라이더', slabel: '동패', value: 'PPG' },
+          BALOON: { label: '기구류', slabel: '기구', value: 'BALOON' },
+          HELICOPTER: { label: '헬리콥터', slabel: '헬기', value: 'HELICOPTER' },
+          UAS: { label: '무인동력비행장치', slabel: '무인', value: 'UAS' },
+          AIRSHIP: { label: '무인비행선', slabel: '비행선', value: 'AIRSHIP' },
+          PARAGLIDER: { label: '패러글라이더', slabel: '패러', value: 'PARAGLIDER' },
+          HANGGLIDER: { label: '행글라이더', slabel: '행글', value: 'HANGLIDER' },
+          PARACHUTE: { label: '낙하산류', slabel: '낙하선', value: 'PARACHUTE' },
       };
 
       var ULV_TYPE = {

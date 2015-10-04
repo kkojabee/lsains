@@ -1,0 +1,84 @@
+<div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span>&nbsp;기체 소유자 추가/수정</h4>
+</div>
+<div class="modal-body">
+    <form name="mform" class="form-horizontal" role="form">
+        <div class="form-group" ng-class="{'has-error': mform.name.$invalid, 'has-success': !mform.name.$invalid}"> 
+            <label for="name" class="control-label col-sm-2">소유자명</label>
+            <div class="col-sm-10">
+                <input type="text" name="name" ng-model="owner.name" class="form-control" placeholder="Owner name" required/>
+                <div class="error-container" ng-show="mform.name.$dirty && mform.name.$invalid">
+                    <small class="help-block error" ng-show="mform.name.$error">소유자명을 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="email" class="control-label col-sm-2">이메일</label>
+            <div class="col-sm-10">
+                <input type="email" name="email" ng-model="owner.email" class="form-control" placeholder="Owner email"/>
+                <div class="error-container" ng-show="mform.email.$dirty && mform.email.$error.email">
+                    <small class="help-block error" ng-show="mform.email.$error.email">이메일을 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="mobile" class="control-label col-sm-2">휴대전화</label>
+            <div class="col-sm-10">
+                <input type="tel" name="mobile" ng-model="owner.mobile" class="form-control" placeholder="Owner mobile"/>
+                <div class="error-container" ng-show="mform.mobile.$dirty && mform.mobile.$invalid">
+                    <small class="help-block error" ng-show="mform.mobile.$error">휴대전화를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="phone" class="control-label col-sm-2">연락처</label>
+            <div class="col-sm-10">
+                <input type="tel" name="phone" ng-model="owner.phone" class="form-control" placeholder="Owner phone"/>
+                <div class="error-container" ng-show="mform.phone.$dirty && mform.phone.$invalid">
+                    <small class="help-block error" ng-show="mform.phone.$error">연락처를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="fax" class="control-label col-sm-2">팩스</label>
+            <div class="col-sm-10">
+                <input type="tel" name="fax" ng-model="owner.fax" class="form-control" placeholder="Owner fax"/>
+                <div class="error-container" ng-show="mform.fax.$dirty && mform.fax.$invalid">
+                    <small class="help-block error" ng-show="mform.fax.$error">팩스번호를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="company" class="control-label col-sm-2">소속회사</label>
+            <div class="col-sm-10">
+                <input type="tel" name="company" ng-model="owner.company" class="form-control" placeholder="Owner company"/>
+                <div class="error-container" ng-show="mform.company.$dirty && mform.company.$invalid">
+                    <small class="help-block error" ng-show="mform.company.$error">소속회사를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="address" class="control-label col-sm-2">주소</label>
+            <div class="col-sm-10">
+                <input type="text" address="address" ng-model="owner.address" class="form-control" placeholder="Owner address"/>
+                <div class="error-container" ng-show="mform.address.$dirty && mform.address.$invalid">
+                    <small class="help-block error" ng-show="mform.address.$error">주소를 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="url" class="control-label col-sm-2">홈페이지</label>
+            <div class="col-sm-10">
+                <input type="url" name="url" ng-model="owner.url" class="form-control" placeholder="Owner homepage url"/>
+                <div class="error-container" ng-show="mform.url.$dirty && mform.url.$invalid">
+                    <small class="help-block error" ng-show="mform.url.$error">홈페이지를 정확히 입력하여 주십시오.</small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="mform.$invalid || saving">Save</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>
