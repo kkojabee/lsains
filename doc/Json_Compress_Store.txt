@@ -1,0 +1,49 @@
+var zlib = require("zlib");
+var os = require('os');
+var fs = require('fs');
+var path = require('path');
+var uuid = require('node-uuid');
+var afile = require('../afile/afile.model');
+var basePath = afile.basePath;
+
+		var jsonObject = JSON.stringify({
+                    count: count,
+                    result: data,
+                    type: 'product'
+                });
+
+                console.log('jsonObject: ', jsonObject);
+
+                var jsonParsed = JSON.parse(jsonObject);
+                console.log('jsonParsed: ', jsonParsed);
+
+                zlib.gzip(jsonObject, function(err, result){
+                    if(!err){
+                        var file_name = 'test.zip';
+                        var uuid_name = uuid.v4().toString();
+                        var ext_name = path.extname(file_name).substring(1).toString();
+                        var uuid_path = basePath + uuid_name;
+                        var file_size = result.length;
+                        fs.writeFileSync(uuid_path, result);
+
+                        var doc = {
+                            file_type: 'GEN',
+                            mime_type: 'application/zip, application/octet-stream',
+                            uuid_name: uuid_name,
+                            file_name: file_name,
+                            ext_name: ext_name,
+                            file_size: file_size
+                        };
+
+                        afile.create(doc, function (err, afile) {
+                            if (err) { return handleError(res, err); }
+
+                            console.log('afile: ', afile);
+                            return res.json(200, {
+                                count: count,
+                                result: data,
+                                type: 'product'
+                            });
+                        });
+                    }
+                });

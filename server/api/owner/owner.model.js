@@ -7,12 +7,7 @@ var mongoose = require('mongoose'),
     Enums = require('../base/enums');
 
 var model = 'owner';
-var OwnerSchema = Person.add({
-  lsa_category: { type: String, default: Enums.LSA_CATEGORY.ULV },
-  lsa_type: String,
-  company:  { type: String, trim: true },
-  mobile: String,
-});
+var OwnerSchema = Person.Schema;
 
 OwnerSchema.virtual('desc').get(function () {
   var isSubVal = (this.mobile || this.phone || this.company);

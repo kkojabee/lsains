@@ -238,45 +238,35 @@ var ownerSeeding = function () {
             url: '',
             email: '',
             phone: '',
-            fax: '',
-            lsa_category: '',
-            lsa_type: ''
+            fax: ''
         }, {
             name: 'Rotax Aircraft Engines',
             address: 'BRP-Powertrain GmbH & Co KG, Rotaxstrasse 1, A-4623 Gunskirchen, Austria',
             url: 'http://www.flyrotax.com',
             email: 'info@flyrotax.com',
             phone: '+43 7246 601-0',
-            fax: '+43 7246 601-6370',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '+43 7246 601-6370'
         }, {
             name: 'I.C.P. s.r.l.',
             address: 'S.P.16 - km 15,150 - 14022 Castelnuovo Don Bosco (AT), Italy',
             url: 'http://www.icpaviazione.it',
             email: 'info@icp.it',
             phone: '011 9927503',
-            fax: '011 9927266',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '011 9927266'
         }, {
             name: 'TECNAM S.r.l.',
             address: 'Via Maiorise 81043 Capua (CE), Italy',
             url: 'http://tecnam.com/',
             email: 'technical.support@tecnam.com',
             phone: ' +39 0823 622297',
-            fax: '+39 0823 622899',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '+39 0823 622899'
         },{
             name: 'Woodcomp s.r.o.',
             address: 'Vodolská 4 250 70 - Odolena Voda, Czech Republic',
             url: 'http://www.woodcomp.cz/',
             email: 'info@woodcomp.cz',
             phone: '00420 283 971 309',
-            fax: '00420 283 970 286',
-            lsa_category: 'LSA',
-            lsa_type: 'HELICOPTER'
+            fax: '00420 283 970 286'
         },{
             name: '김영호',
             company: '에어랜드항공',
@@ -285,9 +275,7 @@ var ownerSeeding = function () {
             email: 'airland21@hanmail.net',
             mobile: '010-2502-2676',
             phone: '054-977-2676',
-            fax: '054-977-9901',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '054-977-9901'
         },{
             name: '이준호',
             address: '충남 공주시 의당면 수촌리 정안이착륙장',
@@ -296,9 +284,7 @@ var ownerSeeding = function () {
             email: 'ds3cwv@hanmail.net',
             mobile: '010-5425-2676',
             phone: '041-852-8226',
-            fax: '041-854-8226',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '041-854-8226'
         }, function () {
             console.log('finished populating owners');
             Owner.find({}).sort({ name: 1 }).exec(function (err, data) {

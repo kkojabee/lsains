@@ -6,12 +6,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var personSchema = BaseSchema.add({
-  name: { type: String, trim: true },
+  name: { type: String, required: true, trim: true },
   address: { type: String, trim: true },
-  url: String,
-  email: String,
-  phone: String,
-  fax: String,
+  url: { type: String, trim: true },
+  email: { type: String, trim: true },
+  phone: { type: String, trim: true },
+  fax: { type: String, trim: true },
+  company:  { type: String, trim: true },
+  mobile: { type: String, trim: true }
 });
 
 exports.add = function(add) {
