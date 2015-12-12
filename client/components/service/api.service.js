@@ -30,7 +30,10 @@ angular.module('insApp')
      };
 
      var getApiUrl = function(type) {
-        return '/api/' + type + 's';
+        if (type === 'flightsafety')
+          return '/api/flightsafeties';          
+        else
+         return '/api/' + type + 's';
      };
       
     return {
@@ -40,7 +43,6 @@ angular.module('insApp')
                   var apiUrl = getApiUrl(type);
                   promise = $http.get(apiUrl).then(function (response) {
                       // The then function here is an opportunity to modify the response
-
                       socket.syncUpdates(response.data.type, response.data.result, function (event, item, array) {
                           $rootScope.$broadcast(response.data.type, { event: event, item: item });
                       });

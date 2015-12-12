@@ -1,0 +1,64 @@
+﻿<div class="container">
+  <div ng-show="dataLoading" class="text-center">
+    <h4>Aircraft Data Loading...</h4>
+  </div>
+  <div class="loading-spiner-holder"  class="text-center" data-loading >
+    <button class="btn btn-success">Aircraft Data Loading...
+        <i class="fa fa-spinner fa-spin"></i>
+    </button>
+  </div>
+  <div ng-show="!dataLoading">
+    <table class="table">
+      <thead>
+          <tr>
+            <td colspan="3">
+              <div class="form-inline">
+                  <button type="button" class="btn btn-sm btn-primary pull-right" ng-click="addFlightSafety()">
+                    <span class="glyphicon glyphicon-plus"></span>새안전정보
+                  </button>
+                  <input id="fsQuery" ng-model="fsQuery" class="input-sm form-control pull-right" placeholder="검색" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th ng-click="fsSort('type')">종류
+              <span class="glyphicon sort-icon" ng-show="fsSortKey=='type'" ng-class="{'glyphicon-chevron-up':fsReverse,'glyphicon-chevron-down':!fsReverse}"></span>
+            </th>
+            <th ng-click="fsSort('pubno')">발행번호
+              <span class="glyphicon sort-icon" ng-show="fsSortKey=='pubno'" ng-class="{'glyphicon-chevron-up':fsReverse,'glyphicon-chevron-down':!fsReverse}"></span>
+            </th>
+            <th ng-click="fsSort('title')">제목
+              <span class="glyphicon sort-icon" ng-show="fsSortKey=='title'" ng-class="{'glyphicon-chevron-up':fsReverse,'glyphicon-chevron-down':!fsReverse}"></span>
+            </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr dir-paginate="row in flightsafeties|filter:fsSearch|orderBy:fsSortKey:fsReverse|itemsPerPage:10">
+            <td class="sbtype">{{row.type}}</td>
+            <td class="sbno">
+              <a ui-sref="flightsafety.detail" ng-click="showFlightSafety(row)">
+                <span ng-bind-html="row.pubno_full | fstrong:fsQuery"/></br><span ng-bind-html="row.pubno_sub_full | fstrong:fsQuery"/>
+              </a>
+            </td>
+            <td>
+              <button ng-show="row.mandatory" class="btn btn-danger btn-xs" tooltip-trigger="mouseenter" tooltip-animation="false" tooltip-placement="top" tooltip="Madatory">
+                <span class="glyphicon glyphicon-warning-sign"/>
+              </button>
+              <button ng-show="row.repeat" class="btn btn-warning btn-xs" tooltip-trigger="mouseenter" tooltip-animation="false" tooltip-placement="top" tooltip="Repeat">
+                <span class="glyphicon glyphicon-repeat"></span>
+              </button>
+              <span ng-bind-html="row.title  | fstrong:fsQuery" popover-trigger="mouseenter" popover-animation="false" popover-placement="top" popover="{{row.title}}"/>
+              <small>({{row.date_rev}})</small>
+            </td>
+          </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+            <td colspan="6" class="text-center">
+              <dir-pagination-controls max-size="9" direction-links="true" boundary-links="true" />
+            </td>
+          </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

@@ -9,6 +9,8 @@ var async = require('async');
 var Q = require('q');
 var _ = require('lodash');
 var Thing = require('../api/thing/thing.model');
+var Enums = require('../api/base/enums');
+var AFile = require('../api/afile/afile.model');
 var User = require('../api/user/user.model');
 var EventNo = require('../api/base/eventno.model');
 var Manufacturer = require('../api/manufacturer/manufacturer.model');
@@ -17,10 +19,12 @@ var Product = require('../api/product/product.model');
 var Component = require('../api/component/component.model');
 var Comp = require('../api/comp/comp.model');
 var Aircraft = require('../api/aircraft/aircraft.model');
-var AFile = require('../api/afile/afile.model');
-var Inspection = require('../api/inspection/inspection.model');
 var Owner = require('../api/owner/owner.model');
-var Enums = require('../api/base/enums');
+var Inspection = require('../api/inspection/inspection.model');
+var InsGroup = require('../api/insgroup/insgroup.model');
+var Certificate = require('../api/certificate/certificate.model');
+var FlightSafety = require('../api/flightsafety/flightsafety.model');
+var Maintenance = require('../api/maintenance/maintenance.model');
 
 EventNo.find({}).remove(function () {
     EventNo.create({
@@ -35,6 +39,18 @@ EventNo.find({}).remove(function () {
         _id: 'comp'
     }, {
         _id: 'aircraft'
+    }, {
+        _id: 'owner'
+    }, {
+        _id: 'inspection'
+    }, {
+        _id: 'insgroup'
+    }, {
+        _id: 'certificate'
+    }, {
+        _id: 'flightsafety'
+    }, {
+        _id: 'maintenance'
     }, function () {
         console.log('finished populating eventno');
         manufacturerSeeding();
@@ -189,34 +205,32 @@ var productSeeding = function () {
             comp_type: 'ENGINE',
             model: 'Rotax 912',
             sub_model: 'UL',
-            test1: 'test1',
-            test2: 100,
-            full_name: "Rotax 912 UL (Rotax Aircraft Engines)",
             _manufacturer: mfgs[1]._id
         }, {
             comp_type: 'ENGINE',
             model: 'Rotax 912',
             sub_model: 'ULS',
-            _manufacturer: mfgs[1]._id,
-            full_name: "Rotax 912 ULS (Rotax Aircraft Engines)",
+            _manufacturer: mfgs[1]._id
+        }, {
+            comp_type: 'ENGINE',
+            model: 'Rotax 914',
+            sub_model: 'UL',
+            _manufacturer: mfgs[1]._id
         }, {
             comp_type: 'PROPELLER',
             model: 'SR 30S',
             sub_model: '',
-            _manufacturer: mfgs[4]._id,
-            full_name: "SR 30S (Woodcomp s.r.o.)",
+            _manufacturer: mfgs[4]._id
         }, {
             comp_type: 'AIRFRAME',
             model: 'Bingo',
             sub_model: '',
-            _manufacturer: mfgs[0]._id,
-            full_name: "BINGO (I.C.P. s.r.l.)",
+            _manufacturer: mfgs[0]._id
         }, {
             comp_type: 'AIRFRAME',
             model: 'Savannah',
             sub_model: 'S',
-            _manufacturer: mfgs[0]._id,
-            full_name: "Savannah S (I.C.P. s.r.l.)",
+            _manufacturer: mfgs[0]._id
         },
         function () {
             console.log('finished populating products');
@@ -238,45 +252,35 @@ var ownerSeeding = function () {
             url: '',
             email: '',
             phone: '',
-            fax: '',
-            lsa_category: '',
-            lsa_type: ''
+            fax: ''
         }, {
             name: 'Rotax Aircraft Engines',
             address: 'BRP-Powertrain GmbH & Co KG, Rotaxstrasse 1, A-4623 Gunskirchen, Austria',
             url: 'http://www.flyrotax.com',
             email: 'info@flyrotax.com',
             phone: '+43 7246 601-0',
-            fax: '+43 7246 601-6370',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '+43 7246 601-6370'
         }, {
             name: 'I.C.P. s.r.l.',
             address: 'S.P.16 - km 15,150 - 14022 Castelnuovo Don Bosco (AT), Italy',
             url: 'http://www.icpaviazione.it',
             email: 'info@icp.it',
             phone: '011 9927503',
-            fax: '011 9927266',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '011 9927266'
         }, {
             name: 'TECNAM S.r.l.',
             address: 'Via Maiorise 81043 Capua (CE), Italy',
             url: 'http://tecnam.com/',
             email: 'technical.support@tecnam.com',
             phone: ' +39 0823 622297',
-            fax: '+39 0823 622899',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '+39 0823 622899'
         },{
             name: 'Woodcomp s.r.o.',
             address: 'Vodolská 4 250 70 - Odolena Voda, Czech Republic',
             url: 'http://www.woodcomp.cz/',
             email: 'info@woodcomp.cz',
             phone: '00420 283 971 309',
-            fax: '00420 283 970 286',
-            lsa_category: 'LSA',
-            lsa_type: 'HELICOPTER'
+            fax: '00420 283 970 286'
         },{
             name: '김영호',
             company: '에어랜드항공',
@@ -285,9 +289,7 @@ var ownerSeeding = function () {
             email: 'airland21@hanmail.net',
             mobile: '010-2502-2676',
             phone: '054-977-2676',
-            fax: '054-977-9901',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '054-977-9901'
         },{
             name: '이준호',
             address: '충남 공주시 의당면 수촌리 정안이착륙장',
@@ -296,9 +298,7 @@ var ownerSeeding = function () {
             email: 'ds3cwv@hanmail.net',
             mobile: '010-5425-2676',
             phone: '041-852-8226',
-            fax: '041-854-8226',
-            lsa_category: 'LSA',
-            lsa_type: 'AIRPLANE'
+            fax: '041-854-8226'
         }, function () {
             console.log('finished populating owners');
             Owner.find({}).sort({ name: 1 }).exec(function (err, data) {
@@ -342,6 +342,7 @@ var aFilesSeeding = function () {
 }
 
 
+var aircrafts = [];
 var aircraftSeeding = function () {
     //Q.all([Q.nfcall(componentRemoving), Q.nfcall(builderRemoving)]).then(function () {
 
@@ -426,7 +427,7 @@ var aircraftSeeding = function () {
     };
 
     var air_org = [aircraft1, aircraft2];
-    var aircrafts = [];
+    var items = [];
     var acount = 30;
     for (var i = 0; i < acount; i++) {
         var reg_no = 'HLC' + (100 + i);
@@ -434,19 +435,180 @@ var aircraftSeeding = function () {
         var aircraft = _.clone(aircrafto);
         aircraft.components = _.clone(aircrafto.components);
         aircraft.reg_no = reg_no;
-        aircrafts.push(aircraft);
+        items.push(aircraft);
     };
 
     Aircraft.find({}).remove(function () {
-        Aircraft.create(aircrafts,
+        Aircraft.create(items,
             function (err, results) {
                 if (err) { console.log('err: ', err); }
                 if (results) { }
 
-                console.log('finished populating aircrafts');
+                 Aircraft.find({}).exec(function (err, objs) {
+                    console.log('finished populating aircrafts');
+                    aircrafts = objs;
+                    flightsafetySeeding();
+                });
             });
     });
     //});
+}
+
+var flightsafetySeeding = function () {
+    var p_r912ul = _.find(products, { model: 'Rotax 912', sub_model: 'UL' });
+    var p_r912uls = _.find(products, { model: 'Rotax 912', sub_model: 'ULS' });
+    var p_r914ul = _.find(products, { model: 'Rotax 914', sub_model: 'UL' });
+
+    var fs1 = {
+        type: 'SB',
+        valid: true,
+        mandatory: true,
+        pubno: 'SB-912-065UL',
+        pubno_sub: 'SB-914-046UL',
+        pubno_prev: '',
+        title: 'Periodic inspection of the float buoyancy for ROTAX Engine Type 912 and 914 (Series)',
+        date_pub: '2014-11-13',
+        pubno_rev: 'R3',
+        pubno_sub_rev: 'R3',
+        date_rev: '2015-03-26',
+        sn: 'REF',
+        time_wdue: 'REF',
+        repeat: true,
+        content: 'Periodic inspection of the float buoyancy for ROTAX Engine Type 912 and 914 (Series)',
+        comp_type: 'ENGINE',
+        _products: [p_r912ul._id, p_r912uls._id]
+        //_products: [p_r912ul._id, p_r912uls._id, p_r914ul._id]
+    };
+
+    var fs2 = {
+        type: 'SB',
+        valid: true,
+        mandatory: true,
+        pubno: 'SB-912-068UL',
+        pubno_sub: 'SB-914-049UL',
+        pubno_prev: '',
+        title: 'Specification change of engine configuration and or type plate for ROTAX® Engine Type 912 and 914 (Series)',
+        date_pub: '2015-04-16',
+        pubno_rev: 'R2',
+        pubno_sub_rev: 'R2',
+        date_rev: '2015-09-09',
+        sn: 'REF',
+        time_wdue: 'REF',
+        repeat: false,
+        comp_type: 'ENGINE',
+        content: 'Specification change of engine configuration and or type plate for ROTAX® Engine Type 912 and 914 (Series)',
+        _products: [p_r912ul._id, p_r912uls._id, p_r914ul._id]
+    };
+
+    FlightSafety.find({}).remove(function () {
+        FlightSafety.create([fs1, fs2],
+            function (err, results) {
+                if (err) { console.log('err: ', err); }
+                if (results) { }
+                console.log('finished populating flightsafeties');
+                certificateSeeding();
+            });
+    });
+}
+
+var certificateSeeding = function () {
+    var getNextDayString = function(oneDate, nD) {
+        oneDate.setDate(oneDate.getDate() + nD);
+        return oneDate.toISOString().slice(0,10);
+    }
+
+    var ce1 = {
+        type: 'RGL',
+        cert_no: 'KL14-090',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2014-11-20',
+        date_start: '2014-11-20',
+        date_end: getNextDayString(new Date(), 10),
+        valid: true,
+        invalid_type: '',
+        _aircraft: aircrafts[0]._id
+    };
+
+    var ce6 = {
+        type: 'RGL',
+        cert_no: 'KL13-091',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2013-11-20',
+        date_start: '2013-11-20',
+        date_end: '2014-11-19',
+        valid: true,
+        invalid_type: '',
+        _aircraft: aircrafts[1]._id
+    };
+
+    var ce2 = {
+        type: 'RGL',
+        cert_no: 'KL14-091',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2014-11-20',
+        date_start: '2014-11-20',
+        date_end: '2015-11-19',
+        valid: true,
+        invalid_type: '',
+        _aircraft: aircrafts[1]._id
+    };
+
+    var ce3 = {
+        type: 'RGL',
+        cert_no: 'KL15-091',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2015-11-20',
+        date_start: '2015-11-20',
+        date_end: '2016-11-19',
+        valid: true,
+        invalid_type: '',
+        _aircraft: aircrafts[1]._id
+    };
+
+    var ce4 = {
+        type: 'RGL',
+        cert_no: 'KL15-092',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2015-11-31',
+        date_start: '2015-11-31',
+        date_end: '2016-11-30',
+        valid: false,
+        invalid_type: 'WAIT',
+        _aircraft: aircrafts[2]._id
+    };
+
+    var ce5 = {
+        type: 'TMP',
+        cert_no: 'TL15-001',
+        eg_model: 'Jabiru 2200A',
+        rate: 'R2',
+        limit: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한',
+        date_pub: '2015-11-10',
+        date_start: '2015-11-10',
+        date_end: '2015-11-19',
+        valid: true,
+        invalid_type: '',
+        _aircraft: aircrafts[1]._id
+    };
+
+    Certificate.find({}).remove(function () {
+        Certificate.create([ce1, ce2, ce3, ce4, ce5, ce6],
+            function (err, results) {
+                if (err) { console.log('err: ', err); }
+                if (results) { }
+                console.log('finished populating certificates');
+            });
+    });
 }
 
     /*

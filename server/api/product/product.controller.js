@@ -13,6 +13,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var product = require('./product.model');
 var aircraft = require('../aircraft/aircraft.model');
+var helper = require('../base/helper');
 var popQuery = [{ path: '_afiles', model: 'AFile' },
                 { path: '_aimages', model: 'AFile'},
                 { path: '_manufacturer', model: 'Manufacturer'}];
@@ -54,23 +55,8 @@ exports.show = function(req, res) {
 };
 
 var unpopulateProduct = function (body) {
-    if (body._manufacturer !== undefined && body._manufacturer._id !== undefined)
-        body._manufacturer = mongoose.Types.ObjectId(body._manufacturer._id);
-
-    if (body._afiles) {
-        var afiles = [];
-        body._afiles.forEach(function (afile) {
-            afiles.push(mongoose.Types.ObjectId(afile._id));
-        });
-        body._afiles = afiles;
-    }
-    if (body._aimages) {
-        var aimages = [];
-        body._aimages.forEach(function (aimage) {
-            aimages.push(mongoose.Types.ObjectId(aimage._id));
-        });
-        body._aimages = aimages;
-    }
+    helper.unpopafile(body);
+    helper.unpopid(body._manufacturer);
 }
 
 // Creates a new product in the DB.

@@ -29,7 +29,9 @@ angular.module('insApp')
             filters: [filters[0]]
         });
 
-        $scope.file_type = $scope.fileTypes[0].value;
+        if(!$scope.file_type)
+            $scope.file_type = $scope.fileTypes[0].value;
+        
         $scope.fileTypeChange = function (file_type) {
             if (file_type == 'ALL')
                 uploader.alias = 'GEN';

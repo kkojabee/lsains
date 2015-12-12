@@ -5,7 +5,7 @@ angular.module('insApp')
         if ($scope.aircraftQuery) {
             return (angular.lowercase(row.reg_no).indexOf(angular.lowercase($scope.aircraftQuery)) !== -1 ||
                     angular.lowercase(row.model).indexOf(angular.lowercase($scope.aircraftQuery)) !== -1 ||
-                    angular.lowercase(row.owner).indexOf(angular.lowercase($scope.aircraftQuery)) !== -1 );
+                    angular.lowercase(row._owner.name).indexOf(angular.lowercase($scope.aircraftQuery)) !== -1 );
         }
         else
             return true;

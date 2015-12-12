@@ -29,7 +29,9 @@
       <link rel="stylesheet" href="app/afile/afile.css">
       <link rel="stylesheet" href="app/aircraft/aircraft.css">
       <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/certificate/certificate.css">
       <link rel="stylesheet" href="app/dialog/dialog.css">
+      <link rel="stylesheet" href="app/flightsafety/flightsafety.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/manufacturer/manufacturer.css">
       <link rel="stylesheet" href="app/product/product.css">
@@ -81,6 +83,7 @@
       <script src="bower_components/angular-dialog-service/dist/dialogs.min.js"></script>
       <script src="bower_components/angular-dialog-service/dist/dialogs-default-translations.min.js"></script>
       <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
+      <script src="bower_components/ngstorage/ngStorage.js"></script>
       <script src="bower_components/angular-utils-pagination/dirPagination.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
@@ -105,8 +108,17 @@
           <script src="app/aircraft/aircraft.detail.controller.js"></script>
           <script src="app/aircraft/aircraft.js"></script>
           <script src="app/aircraft/aircraft.list.controller.js"></script>
+          <script src="app/certificate/cert.template.controller.js"></script>
+          <script src="app/certificate/certificate.controller.js"></script>
+          <script src="app/certificate/certificate.detail.controller.js"></script>
+          <script src="app/certificate/certificate.js"></script>
+          <script src="app/certificate/certificate.list.controller.js"></script>
           <script src="app/dialog/dialog.controller.js"></script>
           <script src="app/dialog/dialog.js"></script>
+          <script src="app/flightsafety/flightsafety.controller.js"></script>
+          <script src="app/flightsafety/flightsafety.detail.controller.js"></script>
+          <script src="app/flightsafety/flightsafety.js"></script>
+          <script src="app/flightsafety/flightsafety.list.controller.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="app/manufacturer/manufacturer.controller.js"></script>
@@ -115,8 +127,12 @@
           <script src="app/product/product.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
+          <script src="components/directive/cert.directive.js"></script>
+          <script src="components/directive/fstrong.directive.js"></script>
+          <script src="components/directive/loading.directive.js"></script>
           <script src="components/enums/enums.service.js"></script>
           <script src="components/filter/filesize.filter.js"></script>
+          <script src="components/filter/fstrong.filter.js"></script>
           <script src="components/filter/lsaregno.filter.js"></script>
           <script src="components/modal/modal.controller.js"></script>
           <script src="components/mongoose-error/mongoose-error.directive.js"></script>

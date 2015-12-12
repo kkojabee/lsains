@@ -1,0 +1,14 @@
+﻿table의 CSS 속성은 기복적으로 display:table 이다.
+table의 속성을 display:block으로 변경하면 테이블이 가로로 꽉차지 않는다.
+collapse 는 display:none과 display:block을 상호 변경한다.
+
+javascript는 기본적으로 call by value로 인수를 전달한다. 
+object를 전달하는 경우에는 reference로 전달한다.
+
+현재 설계된 controller.js 모듈에서 update 명령어는 schema.pre('save')를 호출하지 않는다.
+findById로 얻어진 객체를 저장할 경우에는 hook 함수 schema.pre, post('save') 등이 호출된다.
+
+angular-js bootstrap 에서는 collapse가 bootstrap의 함수로는 동작하지 않는다.
+collapse="변수" 나 새 버전의 angular-js 에서는 uib-collapse="변수"를 사용한다.
+
+flightsafety는 하나의 제목 안에 리비전 파일들로 갱신 여부를 구분한다.

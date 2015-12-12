@@ -7,12 +7,7 @@ var mongoose = require('mongoose'),
     Enums = require('../base/enums');
 
 var model = 'owner';
-var OwnerSchema = Person.add({
-  lsa_category: { type: String, default: Enums.LSA_CATEGORY.ULV },
-  lsa_type: String,
-  company:  { type: String, trim: true },
-  mobile: String,
-});
+var OwnerSchema = Person.Schema;
 
 OwnerSchema.virtual('desc').get(function () {
   var isSubVal = (this.mobile || this.phone || this.company);
@@ -27,6 +22,7 @@ OwnerSchema.set('toJSON', { virtuals: true });
 
 OwnerSchema.pre('save', function(next) {
   var doc = this;
+
   // must add model eventno _id befor use model scema !!
   EventNo.findByIdAndUpdate(model, { $inc: { event_no: 1 } }, function (err, eventno) {
     if (err || eventno == null) {
@@ -37,6 +33,12 @@ OwnerSchema.pre('save', function(next) {
         next();
     }
   });
+});
+
+OwnerSchema.pre('remove', function (next) {
+    Person.delAFiles(this, function() {
+        next();
+    });
 });
 
 module.exports = mongoose.model('Owner', OwnerSchema);

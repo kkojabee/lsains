@@ -1,28 +1,33 @@
 ﻿'use strict';
 angular.module('insApp')
   .factory('Enums', function () {
+      // 제작자 유형
       var MFG_TYPE = {
           PART: { label: '부품', value: 'PART' },
           AIRCRAFT: { label: '항공기', value: 'AIRCRAFT' }
       };
 
+      // 기체 제작자 유형
       var BLD_TYPE = {
           BLD_ASM: { label: '제작자', value: 'BLD_ASM' },
           BLD_KIT: { label: '키트제작자', value: 'BLD_KIT' },
           BLD_DSN: { label: '설계자', value: 'BLD_DSN' },
       };
 
+      // 초경량/경량항공기 분류
       var LSA_CATEGORY = {
           ULV: { label: '초경량비행장치', value: 'ULV' },
           LSA: { label: '경량항공기', value: 'LSA' }
       };
 
+      // 육상기/수상기 분류
       var GEAR_TYPE = {
           LAND: { label: '육상기', value: 'LAND' },
           WATER: { label: '수상기', value: 'WATER' },
           AMPHIBIAN: { label: '수륙양용기', value: 'AMPHIBIAN' }
       };
 
+      // 초경량/경량항공기 일반 분류
       var AIRCRAFT_TYPE = {
           WSC: { label: '체중이동형', slabel: '체중', value: 'WSC' },
           AIRPLANE: { label: '타면조종형', slabel: '타면', value: 'AIRPLANE' },
@@ -37,6 +42,7 @@ angular.module('insApp')
           PARACHUTE: { label: '낙하산류', slabel: '낙하선', value: 'PARACHUTE' },
       };
 
+      // 초경량 비행장치 종류
       var ULV_TYPE = {
           WSC: { label: '체중이동형비행장치', value: 'WSC' },
           AIRPLANE: { label: '타면조종형비행장치', value: 'AIRPLANE' },
@@ -51,6 +57,7 @@ angular.module('insApp')
           PARACHUTE: { label: '낙하산류', value: 'PARACHUTE' },
       };
 
+      // 경량항공기 종류
       var LSA_TYPE = {
           WSC: { label: '체중이동형비행기', value: 'WSC' },
           AIRPLANE: { label: '타면조종형비행기', value: 'AIRPLANE' },
@@ -59,12 +66,14 @@ angular.module('insApp')
           HELICOPTER: { label: '경량헬리콥터', value: 'HELICOPTER' }
       };
 
+      // 등록 상태
       var REG_STATUS = {
           REG: { label: '등록(신고)', value: 'REG' },
           UNREG: { label: '말소', value: 'UNREG' },
           PREREG: { label: '가등록', value: 'PREREG' }
       };
       
+      // 경량항공기 등록 유형
       var REG_TYPE = {
           NEW: { label: '신규', value: 'NEW' },
           USED: { label: '중고', value: 'USED' },
@@ -72,6 +81,7 @@ angular.module('insApp')
           UNREG:  { label: '무등록', value: 'UNREG' },
       };
       
+      // 부품 종류
       var COMP_TYPE = {
           AIRFRAME: { label: '기체', value: 'AIRFRAME' },
           ENGINE: { label: '엔진', value: 'ENGINE' },
@@ -94,6 +104,7 @@ angular.module('insApp')
           OTHERS: { label: '기타', value: 'OTHERS' }
       };
 
+      // 경량항공기 종류별로 필수 장착 부품 타입
       var REQUIRED_COMP = {
           WSC: { label: '체중이동형', values: ['AIRFRAME', 'ENGINE'] },
           AIRPLANE: { label: '타면조종형', values: ['AIRFRAME', 'ENGINE'] },
@@ -108,6 +119,7 @@ angular.module('insApp')
           PARACHUTE: { label: '낙하산류', values: ['PARACHUTE'] }
       };
 
+      // 경량항공기 종류별로 장착가능한 부품 타입
       var INSTALLABLE_COMP = {
           WSC: { label: '체중이동형', values: ['AIRFRAME', 'ENGINE', 'GLIDER', 'PROPELLER', 'INSTRUMENT', 'DEVICE', 'OTHERS'] },
           AIRPLANE: { label: '타면조종형', values: ['AIRFRAME', 'ENGINE', 'PROPELLER', 'INSTRUMENT', 'DEVICE', 'OTHERS'] },
@@ -152,6 +164,7 @@ angular.module('insApp')
       };
       */
 
+      // 보관처 분류
       var REGION = {
         SK:  { label: '수도권', value: 'SK', acenter: 'SC' },
         KW:  { label: '강원', value: 'KW', acenter: 'SC' },
@@ -164,22 +177,82 @@ angular.module('insApp')
         JJ:  { label: '제주', value: 'JJ', acenter: 'JC' },
       };
 
+      // 지방항공청 분류
       var ACENTER = {
         SC:  { label: '서항청', value: 'SC' },
         BC:  { label: '부항청', value: 'BC' },
         JC:  { label: '제항청', value: 'JC' }
       };
 
+      // 파일 종류
       var FILE_TYPE = {
-        GEN:  { label: '일반',     value: 'GEN' },
-        APP:  { label: '신청서류', value: 'APP' },
-        INS:  { label: '검사서류', value: 'INS' },
+        GEN:  { label: '일반',    value: 'GEN' },
+        APP:  { label: '신청서류',  value: 'APP' },
+        INS:  { label: '검사서류',  value: 'INS' },
         MAN:  { label: '매뉴얼',   value: 'MAN' },
-        SBU:  { label: '기술회보', value: 'SBU' },
+        SBU:  { label: '기술회보',  value: 'SBU' },
         IMG:  { label: '이미지',   value: 'IMG' },
-        ETC:  { label: '기타',     value: 'ETC' }
+        CER:  { label: '인증서',   value: 'CER' },
+        ETC:  { label: '기타',    value: 'ETC' }
       };
-      
+
+      // 인증서 무효 사유
+      var INVALID_TYPE = {
+        WAIT:   { label: '미교부',   value: 'WAIT'  },
+        FAIL:   { label: '불합격',   value: 'FAIL'  },
+        DELAY:  { label: '검사연기', value: 'DELAY' },
+        EXPIRE: { label: '만료',     value: 'EXPIRE'}, 
+        ETC:    { label: '기타',     value: 'ETC'   }
+      };
+
+      // 비행안전정보 타입(AD, SB 등)
+      var FLTSAFETY_TYPE = {
+        AD:   { label: 'AD',  value: 'AD' },
+        ASB:  { label: 'ASB', value: 'ASB'},
+        SA:   { label: 'SA',  value: 'SA' },
+        SB:   { label: 'SB',  value: 'SB' },
+        SL:   { label: 'SL',  value: 'SL' },
+        SN:   { label: 'SN',  value: 'SN' },
+        SI:   { label: 'SI',  value: 'SI' }
+      };      
+
+      // 정비 유형
+      var MAINT_TYPE = {
+        SCH:  { label: 'SCH', value: 'SCH' },
+        REP:  { label: 'REP', value: 'REP' },
+        ALT:  { label: 'ALT', value: 'ALT' },
+        FST:  { label: 'FST', value: 'FST' },
+        OVH:  { label: 'OVH', value: 'OVH' },
+        ETC:  { label: 'ETC', value: 'ETC' }
+      };      
+
+      var CERT_TYPE = {
+        TMP:  { label: '임시', value: 'TMP' },
+        RGL:  { label: '정식', value: 'RGL' }
+      };  
+
+      var CERT_RATE = {
+        R1:  { label: '1종', value: 'R1' },
+        R2:  { label: '2종', value: 'R2' },
+        R3:  { label: '3종', value: 'R3' },
+        R4:  { label: '4종', value: 'R4' }
+      };  
+
+      var RATE_LIMIT = {
+        R1:  { label: '제한 사항 없음', value: 'R1' },
+        R2:  { label: '항공기대여업 또는 항공레저스포츠사업에의 사용 제한', value: 'R2' },
+        R3:  { label: '1. 항공기대여업 또는 항공레저스포츠사업에의 사용 제한\r\n2. 조종사를 포함하여 2명이 탑승한 경우에는 이륙 장소의 중심으로부터 반경 10킬로미터  또는 해당 초경량비행장치 비행구역(UA)을 초과하여 비행에 사용 제한', value: 'R3' },
+        R4:  { label: '1. 조종사 이외의 동승자 탑승 금지\r\n2. 항공기대여업 또는 항공레저스포츠사업에의 사용 제한\r\n3. 이륙 장소의 중심으로부터 반경 10킬로미터  또는 해당 초경량비행장치 비행구역(UA)을 초과하여 비행에 사용 제한\r\n4. 인구 밀집지역의 상공 비행 제한', value: 'R4' },
+      };    
+
+      var INS_TYPE = {
+        INI:  { label: '초도',   value: 'INI' },
+        SCH:  { label: '정기',   value: 'SCH' },
+        ONT:  { label: '수시',   value: 'ONT' },
+        REI:  { label: '재검',   value: 'REI' },
+        REP:  { label: '재발급', value: 'REP' },
+      };  
+
       var getEnumValues = function (obj) {
           var enumValues = [];
           for (var key in obj) {
@@ -229,6 +302,13 @@ angular.module('insApp')
       var regions = getEnumArray(REGION);
       var aCenters = getEnumArray(ACENTER);
       var fileTypes = getEnumArray(FILE_TYPE);
+      var invalidTypes = getEnumArray(INVALID_TYPE);
+      var fltSafetyTypes = getEnumArray(FLTSAFETY_TYPE);
+      var maintTypes = getEnumArray(MAINT_TYPE);
+      var certTypes = getEnumArray(CERT_TYPE);
+      var certRates = getEnumArray(CERT_RATE);
+      var rateLimits = getEnumArray(RATE_LIMIT);
+      var insTypes = getEnumArray(INS_TYPE);
 
       var getLsaCatString = function (val) { return getEnumString(lsaCategories, val); }
       var getCompTypeString = function (val) { return getEnumString(compTypes, val); }
@@ -236,11 +316,19 @@ angular.module('insApp')
       var getBldTypeString = function (val) { return getEnumString(bldTypes, val); }
       var getGearTypeString = function (val) { return getEnumString(gearTypes, val); }
       var getUlvTypeString = function (val) { return getEnumString(ulvTypes, val); }
+      var getLsaTypeString = function (val) { return getEnumString(lsaTypes, val); }
       var getRegStatusString = function (val) { return getEnumString(regStatuses, val); }
       var getRegTypeString = function (val) { return getEnumString(regTypes, val); }
       var getRegionString = function (val) { return getEnumString(regions, val); }
       var getACenterString = function (val) { return getEnumString(aCenters, val); }
       var getFileTypeString = function (val) { return getEnumString(fileTypes, val); }
+      var getInvalidTypeString = function (val) { return getEnumString(invalidTypes, val); }
+      var getFltSafetyTypeString = function (val) { return getEnumString(fltSafetyTypes, val); } 
+      var getMaintTypeString = function (val) { return getEnumString(maintTypes, val); } 
+      var getCertTypeString = function (val) { return getEnumString(certTypes, val); } 
+      var getCertRateString = function (val) { return getEnumString(certRates, val); } 
+      var getRateLimitString = function (val) { return getEnumString(rateLimits, val); } 
+      var getInsTypeString = function (val) { return getEnumString(insTypes, val); } 
 
       var getRequiredCompTypes = function (type) { return REQUIRED_COMP[type].values; }
       var getInstallableCompTypes = function (type) { return INSTALLABLE_COMP[type].values; }
@@ -261,6 +349,14 @@ angular.module('insApp')
           REGION: REGION,
           ACENTER: ACENTER,
           FILE_TYPE: FILE_TYPE,
+          INVALID_TYPE: INVALID_TYPE,
+          FLTSAFETY_TYPE: FLTSAFETY_TYPE,
+          MAINT_TYPE: MAINT_TYPE,
+          CERT_TYPE: CERT_TYPE,
+          CERT_RATE: CERT_RATE,
+          RATE_LIMIT: RATE_LIMIT,
+          INS_TYPE: INS_TYPE,
+
           getEnumValues: getEnumValues,
           getEnumLabels: getEnumLabels,
           getEnumKeys: getEnumKeys,
@@ -278,17 +374,34 @@ angular.module('insApp')
           regions: regions,
           aCenters: aCenters,
           fileTypes: fileTypes,
+          invalidTypes: invalidTypes,
+          fltSafetyTypes: fltSafetyTypes,
+          maintTypes: maintTypes,
+          certTypes: certTypes,
+          certRates: certRates,
+          rateLimits: rateLimits,
+          insTypes: insTypes,
+          
           getLsaCatString:  getLsaCatString,
           getCompTypeString: getCompTypeString,
           getMfgTypeString: getMfgTypeString,
           getBldTypeString: getBldTypeString,
           getGearTypeString: getGearTypeString,
           getUlvTypeString: getUlvTypeString,
+          getLsaTypeString: getLsaTypeString,
           getRegStatusString: getRegStatusString,
           getRegTypeString: getRegTypeString,
           getRegionString: getRegionString,
           getACenterString: getACenterString,
           getFileTypeString: getFileTypeString,
+          getInvalidTypeString: getInvalidTypeString,
+          getFltSafetyTypeString: getFltSafetyTypeString,
+          getMaintTypeString: getMaintTypeString,
+          getCertTypeString: getCertTypeString,
+          getCertRateString: getCertRateString,
+          getRateLimitString: getRateLimitString,
+          getInsTypeString: getInsTypeString,
+
           getRequiredCompTypes: getRequiredCompTypes,
           getInstallableCompTypes: getInstallableCompTypes
       };

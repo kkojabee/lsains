@@ -1,0 +1,213 @@
+﻿<div class="container">
+    <div class="flightsafety-detail">
+        <h2 ng-hide="!flightSafety.pubno">{{flightSafety.pubno}}</h2>
+        <h4 ng-hide="!flightSafety.title">{{flightSafety.title}}</h4>
+        <form name="form" class="detail-form form-horizontal">
+            <fieldset>
+                <div class="panel panel-default form-group">
+                    <div class="panel-heading">
+                        <a href="#reg-collapse" ng-click="regCollapse = !regCollapse" ng-class="{'collapsed':regCollapse,'expanded':!regCollapse}">
+                            기본정보
+                        </a>
+                    </div>
+                    <table id="reg-collapse" ng-init="regCollapse=false" collapse="regCollapse" class="table table-bordered table-condensed">
+                        <tbody>
+                            <!--
+                            <tr class="form-group">
+                                <td rowspan="2">
+                                    <label for="pubno" class="control-label">발행번호</label>
+                                </td>
+                                <td colspan="3" ng-class="{'has-error': form.pubno.$invalid, 'has-success': !form.pubno.$invalid}">
+                                    <div class="form-inline">
+                                        <label for="pubno" class="control-label">주번호</label>
+                                        <input type="text" name="pubno" class="form-control input-sm" value="{{flightSafety.pubno}}" placeholder="발행번호" ng-model="flightSafety.pubno" ui-validate-async="{pubnocheck: 'pubNoCheckAsync($modelValue)'}" ng-disabled="showcmd!=='add'" required />
+                                        <input type="text" name="pubno_rev" class="form-control input-sm revw" value="{{flightSafety.pubno_rev}}" placeholder="리비전" ng-model="flightSafety.pubno_rev"/>
+                                    </div>
+                                    <div class="error-container" ng-disabled="form.pubno.$dirty && form.pubno.$invalid">
+                                        <small class="help-block error" ng-show="form.pubno.$error.required || form.pubno.$error.pattern">정확한 발행번호를 입력하여 주십시오(예: SB-912-065UL 등)</small>
+                                        <small class="help-block error" ng-show="form.pubno.$error.pubnocheck">이미 등록된 발행 번호입니다.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group" ng-hide="form.pubno.$invalid">
+                                <td colspan="3" ng-class="{'has-error': form.pubno_sub.$invalid, 'has-success': !form.pubno_sub.$invalid}">
+                                    <div class="form-inline">
+                                        <label for="pubno_sub" class="control-label">부번호</label>
+                                        <input type="text" name="pubno_sub" class="form-control input-sm" value="{{flightSafety.pubno_sub}}" placeholder="발행번호" ng-model="flightSafety.pubno_sub" ui-validate-async="{pubno_subcheck: 'pubNoCheckAsync($modelValue)'}" ng-disabled="showcmd!=='add'" />
+                                        <input type="text" name="pubno_sub_rev" class="form-control input-sm revw" value="{{flightSafety.pubno_sub_rev}}" placeholder="리비전" ng-model="flightSafety.pubno_sub_rev" />
+                                    </div>
+                                    <div class="error-container" ng-show="form.pubno_sub.$dirty && form.pubno_sub.$invalid">
+                                        <small class="help-block error" ng-show="form.pubno_sub.$error.required || form.pubno_sub.$error.pattern">정확한 부발행번호를 입력하여 주십시오(예: SB-912-065UL 등)</small>
+                                        <small class="help-block error" ng-show="form.pubno_sub.$error.pubno_subcheck">이미 등록된 발행 번호입니다.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                        -->
+                            <tr class="form-group">
+                                <td>
+                                    <label for="pubno" class="control-label">발행번호</label>
+                                </td>
+                                <td colspan="3">
+                                    <div class="form-inline" ng-class="{'has-error': form.pubno.$invalid, 'has-success': !form.pubno.$invalid}">
+                                        <label for="pubno" class="control-label">주번호</label>
+                                        <input type="text" name="pubno" class="form-control input-sm" value="{{flightSafety.pubno}}" placeholder="발행번호" ng-model="flightSafety.pubno" ui-validate-async="{pubnocheck: 'pubNoCheckAsync($modelValue)'}" ng-disabled="showcmd!=='add'" required />
+                                        <input type="text" name="pubno_rev" class="form-control input-sm revw" value="{{flightSafety.pubno_rev}}" placeholder="리비전" ng-model="flightSafety.pubno_rev"/>
+                                        <button type="button" class="btn btn-default btn-xs" ng-click="showPubNo = !showPubNo" ng-hide="flightSafety.pubno_sub || showPubNo">
+                                            <span>부번호추가</span>
+                                        </button>
+                                    </div>
+                                    <div class="error-container" ng-disabled="form.pubno.$dirty && form.pubno.$invalid">
+                                        <small class="help-block error" ng-show="form.pubno.$dirty && form.pubno.$error.required || form.pubno.$error.pattern">정확한 발행번호를 입력하여 주십시오(예: SB-912-065UL 등)</small>
+                                        <small class="help-block error" ng-show="form.pubno.$error.pubnocheck">이미 등록된 발행 번호입니다.</small>
+                                    </div>
+                                    <div style="margin-top:5px" ng-show="flightSafety.pubno_sub || showPubNo" class="form-inline" ng-class="{'has-error': form.pubno_sub.$invalid, 'has-success': !form.pubno_sub.$invalid}">
+                                        <label for="pubno_sub" class="control-label">부번호</label>
+                                        <input type="text" name="pubno_sub" class="form-control input-sm" value="{{flightSafety.pubno_sub}}" placeholder="발행번호" ng-model="flightSafety.pubno_sub" ui-validate-async="{pubno_subcheck: 'pubNoCheckAsync($modelValue)'}" ng-disabled="showcmd!=='add'" />
+                                        <input type="text" name="pubno_sub_rev" class="form-control input-sm revw" value="{{flightSafety.pubno_sub_rev}}" placeholder="리비전" ng-model="flightSafety.pubno_sub_rev" />
+                                    </div>
+                                    <div class="error-container" ng-show="form.pubno_sub.$dirty && form.pubno_sub.$invalid">
+                                        <small class="help-block error" ng-show="form.pubno_sub.$error.required || form.pubno_sub.$error.pattern">정확한 부발행번호를 입력하여 주십시오(예: SB-912-065UL 등)</small>
+                                        <small class="help-block error" ng-show="form.pubno_sub.$error.pubno_subcheck">이미 등록된 발행 번호입니다.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td class="col-sm-2">
+                                    <label for="mandatory" class="control-label">강제여부</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.mandatory.$invalid, 'has-success': !form.mandatory.$invalid}">
+                                    <div class="btn-group">
+                                        <label class="btn btn-default" ng-model="flightSafety.mandatory" btn-radio="true">Yes</label>
+                                        <label class="btn btn-default" ng-model="flightSafety.mandatory" btn-radio="false">No</label>
+                                    </div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <label for="repeat" class="control-label">반복여부</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.repeat.$invalid, 'has-success': !form.repeat.$invalid}">
+                                    <div class="btn-group">
+                                        <label class="btn btn-default" ng-model="flightSafety.repeat" btn-radio="true">Yes</label>
+                                        <label class="btn btn-default" ng-model="flightSafety.repeat" btn-radio="false">No</label>
+                                    </div>
+                                    <!--<select name="repeat" ng-model="flightSafety.repeat" ng-options="o.v as o.n for o in [{ n: 'No', v: false }, { n: 'Yes', v: true }]" class="form-control"/>-->
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td class="col-sm-2">
+                                    <label for="date_pub" class="control-label">등록일자</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.date_pub.$invalid, 'has-success': !form.date_pub.$invalid}">
+                                    <input type="text" name="date_pub" class="form-control" ng-model="flightSafety.date_pub" placeholder="yyyy-MM-dd"  ng-pattern="/^(19|20)\d{2}\-\d{1,2}\-\d{1,2}$/" required />
+                                    <div class="error-container">
+                                        <small class="help-block error" ng-show="form.title.$dirty && form.date_pub.$error.required || form.date_pub.$error.pattern">정확한 등록일자를 입력하여 주십시오(예: 2015-01-01)</small>
+                                    </div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <label for="date_rev" class="control-label">갱신일자</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.date_rev.$invalid, 'has-success': !form.date_rev.$invalid}">
+                                    <input type="text" name="date_rev" class="form-control" ng-model="flightSafety.date_rev" placeholder="yyyy-MM-dd"  ng-pattern="/^(19|20)\d{2}\-\d{1,2}\-\d{1,2}$/" required />
+                                    <div class="error-container">
+                                        <small class="help-block error" ng-show="form.title.$dirty && form.date_rev.$error.required || form.date_rev.$error.pattern">정확한 갱신일자를 입력하여 주십시오(예: 2015-01-01)</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td class="col-sm-2">
+                                    <label for="time_wdue" class="control-label">만료시간</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.time_wdue.$invalid, 'has-success': !form.time_wdue.$invalid}">
+                                    <input type="text" name="time_wdue" class="form-control" ng-model="flightSafety.time_wdue" placeholder="작업만료시간" />
+                                    <div class="error-container">
+                                        <small class="help-block error" ng-show="form.title.$dirty && form.time_wdue.$error.pattern">정확한 작업만료시간을 입력하여 주십시오(예: 4H, 100I, YI, REF 등)</small>
+                                    </div>
+                                </td>
+                                <td class="col-sm-2">
+                                    <label for="date_wdue" class="control-label">만료일</label>
+                                </td>
+                                <td class="col-sm-4" ng-class="{'has-error': form.date_wdue.$invalid, 'has-success': !form.date_wdue.$invalid}">
+                                    <input type="text" name="date_wdue" class="form-control" ng-model="flightSafety.date_wdue" placeholder="yyyy-MM-dd"  ng-pattern="/^(19|20)\d{2}\-\d{1,2}\-\d{1,2}$/"/>
+                                    <div class="error-container">
+                                        <small class="help-block error" ng-show="form.date_wdue.$dirty &&  form.date_wdue.$error.pattern">정확한 작업만료일자를 입력하여 주십시오(예: 2015-01-01)</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td>
+                                    <label for="title" class="control-label">제목</label>
+                                </td>
+                                <td colspan="3" ng-class="{'has-error': form.title.$invalid, 'has-success': !form.title.$invalid}">
+                                    <input type="text" name="title" class="form-control input-sm" value="{{flightSafety.title}}" placeholder="SB 제목" ng-model="flightSafety.title" required />
+                                    <div class="error-container" ng-show="form.title.$dirty && form.title.$invalid">
+                                        <small class="help-block error" ng-show="form.title.$error.required">제목을 입력하여 주십시오.</small>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group">
+                                <td>
+                                    <label for="content" class="control-label">내용</label>
+                                </td>
+                                <td colspan="3" ng-class="{'has-error': form.content.$invalid, 'has-success': !form.content.$invalid}">
+                                    <textarea name="content" rows="4" ng-model="flightSafety.content" class="col-sm-12"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel panel-default form-group">
+                    <div class="panel-heading">
+                        <a href="#part-collapse" ng-click="partCollapse = !partCollapse" ng-class="{'collapsed':partCollapse,'expanded':!partCollapse}">
+                            부품정보
+                        </a>
+                    </div>
+                    <table id="part-collapse" ng-init="partCollapse=false" collapse="partCollapse" class="table table-bordered table-condensed">
+                        <tbody>
+                            <tr class="form-group" ng-hide="flightSafety._products.length">
+                                <td class="col-sm-2">
+                                    <label for="comp_type" class="control-label">부품타입</label>
+                                </td>
+                                <td colspan="3" class="col-sm-10" ng-class="{'has-error': cform.comp_type.$invalid, 'has-success': !cform.comp_type.$invalid}">
+                                    <select name="comp_type" ng-model="flightSafety.comp_type" ng-options="comptype.value as comptype.label for comptype in enums.compTypes" ng-change="compTypeChange(flightSafety.comp_type)" ng-disabled="flightSafety._products && flightSafety._products.length > 0" class="form-control"></select>
+                                </td>
+                            </tr>
+                            <tr class="form-group" ng-show="flightSafety.comp_type">
+                                <td class="col-sm-2">
+                                    <label for="model" class="control-label">모델명</label>
+                                </div>
+                                <td colspan="3" class="col-sm-10">
+                                    <div>
+                                        <div ng-repeat="product in flightSafety._products">
+                                          <span>[{{$index + 1}}] {{product.full_name}} <span><a href="#" ng-click="delProduct(product)">[삭제]</a>
+                                        </div>
+                                    </div>
+                                    <div class="input-group" ng-hide="!ptypes.length" >
+                                        <select name="product" ng-model="product" ng-options="product as product.full_name for product in ptypes" class="input-sm"></select>
+                                        <button type="button" class="btn btn-warning btn-sm mleft2" ng-click="addProduct()" ng-disabled="!ptypes.length">
+                                            <span class="glyphicon glyphicon-plus"></span>추가
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="form-group" ng-hide="showcmd==='add' && !flightSafety._products">
+                                <td class="col-sm-2">
+                                    <label for="sn" class="control-label">일련번호</label>
+                                </td>
+                                <td class="col-sm-10" colspan="3" ng-class="{'has-error': form.sn.$invalid, 'has-success': !form.sn.$invalid}">
+                                    <input type="text" name="sn" class="form-control" palceholder="부품 일련번호" ng-model="flightSafety.sn"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-controller="AFileCtrl" ng-init="init(afiles)" class="form-group">
+                    <a-files></a-files>
+                </div>
+                <div class="input-group-btn3 text-center">
+                    <a ui-sref="flightsafety.list" class="btn btn-sm btn-info" role="button"><span class="glyphicon glyphicon-list"/>목록으로</a>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="updateFlightSafety(flightSafety)" ng-disabled="form.$invalid || saving"><span class="glyphicon glyphicon-floppy-disk"/>{{txtSubmit}}<i class="fa fa-spinner fa-spin" ng-show="saving"></i></button>
+                    <button type="submit" class="btn btn-sm btn-danger" ng-click="deleteFlightSafety(flightSafety)" ng-disabled="form.$invalid || saving"><span class="glyphicon glyphicon-trash"/>삭제</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

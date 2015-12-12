@@ -13,6 +13,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var aircraft = require('./aircraft.model');
 var afile = require('../afile/afile.model');
+var helper = require('../base/helper');
 var popQuery = [
                 { path: '_owner', model: 'Owner' },
                 { path: '_afiles', model: 'AFile' },
@@ -63,6 +64,17 @@ exports.show = function(req, res) {
     });
 };
 
+var unpopulateAircraft = function (body) {   
+    helper.unpopafile(body);
+    helper.unpopids(body, ['_owner', '_bld_asm', '_bld_kit', '_bld_dsn']);
+
+    if (body.components) {
+        body.components.forEach(function (component) {
+            helper.unpopid(component, '_product');
+        });
+    }
+}
+
 // Creates a new aircraft in the DB.
 exports.create = function (req, res) {
     unpopulateAircraft(req.body);
@@ -75,37 +87,6 @@ exports.create = function (req, res) {
         });
     });
 };
-
-var unpopulateAircraft = function (body) {
-    console.info('body: ', body);
-
-    if (body._bld_asm !== undefined && body._bld_asm._id !== undefined)
-        body._bld_asm = mongoose.Types.ObjectId(body._bld_asm._id);
-    if (body._bld_kit !== undefined && body._bld_kit._id !== undefined)
-        body._bld_kit = mongoose.Types.ObjectId(body._bld_kit._id);
-    if (body._bld_dsn !== undefined && body._bld_dsn._id !== undefined)
-        body._bld_dsn = mongoose.Types.ObjectId(body._bld_dsn._id);
-    
-    if (body.components) {
-        body.components.forEach(function (component) {
-            component._product = mongoose.Types.ObjectId(component._product._id);
-        });
-    }
-    if (body._afiles) {
-        var afiles = [];
-        body._afiles.forEach(function (afile) {
-            afiles.push(mongoose.Types.ObjectId(afile._id));
-        });
-        body._afiles = afiles;
-    }
-    if (body._aimages) {
-        var aimages = [];
-        body._aimages.forEach(function (aimage) {
-            aimages.push(mongoose.Types.ObjectId(aimage._id));
-        });
-        body._aimages = aimages;
-    }
-}
 
 // Updates an existing aircraft in the DB.
 exports.update = function (req, res) {
@@ -155,6 +136,7 @@ exports.destroy = function (req, res) {
         aircraft.remove(function (err) {
             if (err) { return handleError(res, err); }
 
+            /*
             if (aircraft._afiles) {
                 aircraft._afiles.forEach(function (item) {
                     afile.findById(item, function (err, afile) {
@@ -170,6 +152,7 @@ exports.destroy = function (req, res) {
                     });
                 });
             }
+            */
 
             return res.send(204);
         });

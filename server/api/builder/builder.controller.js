@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var builder = require('./builder.model');
 var aircraft = require('../aircraft/aircraft.model');
+var helper = require('../base/helper');
 var popQuery = null;
 
 // Get list of builders
@@ -53,20 +54,7 @@ exports.show = function(req, res) {
 };
 
 var unpopulateBuilder = function (body) {
-    if (body._afiles) {
-        var afiles = [];
-        body._afiles.forEach(function (afile) {
-            afiles.push(mongoose.Types.ObjectId(afile._id));
-        });
-        body._afiles = afiles;
-    }
-    if (body._aimages) {
-        var aimages = [];
-        body._aimages.forEach(function (aimage) {
-            aimages.push(mongoose.Types.ObjectId(aimage._id));
-        });
-        body._aimages = aimages;
-    }
+    helper.unpopuafile(body);
 }
 
 // Creates a new builder in the DB.

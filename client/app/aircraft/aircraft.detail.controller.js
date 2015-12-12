@@ -12,6 +12,8 @@ angular.module('insApp')
             
         console.log('AircraftDetailCtrl aircraft: ', $scope.aircraft);
 
+        //$scope.isCollapsed = false;
+
         // start of carousel
         $scope.carouselInterval = 5000;
         // end of carousel
@@ -436,6 +438,35 @@ angular.module('insApp')
                          comp._product._manufacturer = item;
                     }
                 });
+            }
+        });
+
+        $scope.$on('certificate', function (event, data) {
+            var event = data.event;
+            var item = data.item;
+            var array = $scope.aircraft._certificates;
+            switch(event) {
+                case 'created':
+                    if ($scope.aircraft._id == item._aircraft._id) {
+                        var oldItem = _.find(array, { _id: item._id });
+                        if (oldItem) {
+                            var index = array.indexOf(oldItem);
+                            array.splice(index, 1, item);
+                        }
+                        else 
+                            array.push(item);
+                    }
+                    break;
+                case 'updated':
+                    var oldItem = _.find(array, { _id: item._id });
+                    if (oldItem) {
+                        var index = array.indexOf(oldItem);
+                        array.splice(index, 1, item);
+                    }
+                    break;
+                case 'removed':
+                    _.remove(array, { _id: item._id });
+                    break;
             }
         });
     });

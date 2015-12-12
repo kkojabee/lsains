@@ -11,6 +11,8 @@
 
 var _ = require('lodash');
 var component = require('./component.model');
+var afile = require('../afile/afile.model');
+var helper = require('../base/helper');
 var popQuery = [{ path: '_afiles', model: 'AFile' },
                 { path: '_aimages', model: 'AFile'},
                 { path: '_product', model: 'Product'}];
@@ -55,24 +57,14 @@ exports.show = function(req, res) {
 };
 
 var unpopulateComponent = function (body) {
+    helper.unpopafile(body);
+    helper.unpopid(body._product);
+/*
     if (body._product !== undefined && body._product._id !== undefined)
         body._product = mongoose.Types.ObjectId(body._product._id);
-
-    if (body._afiles) {
-        var afiles = [];
-        body._afiles.forEach(function (afile) {
-            afiles.push(mongoose.Types.ObjectId(afile._id));
-        });
-        body._afiles = afiles;
-    }
-    if (body._aimages) {
-        var aimages = [];
-        body._aimages.forEach(function (aimage) {
-            aimages.push(mongoose.Types.ObjectId(aimage._id));
-        });
-        body._aimages = aimages;
-    }
+*/
 }
+
 
 // Creates a new component in the DB.
 exports.create = function (req, res) {

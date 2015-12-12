@@ -498,4 +498,50 @@ angular.module('insApp')
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
-    });
+    })
+    .controller('CertAddDlgCtrl', function ($scope, $filter, $modalInstance, $q, dialogs, Enums, ApiService, aircraft, ins_type) {
+        $scope.regLabel = "등록부호";
+        $scope.date_pub = (new Date()).toISOString().slice(0,10);
+        $scope.enums = Enums;
+
+        if (aircraft) {
+            $scope.reg_no = aircraft.reg_no;
+            $scope.aircraft = aircraft;
+            $scope.d_reg_no = true;
+        }
+        if (ins_type) {
+            $scope.ins_type = ins_type;
+            $scope.d_ins_type = true;
+        }
+
+        $scope.regExistCheckAsync = function(value) {
+            return $q(function(resolve, reject) {
+                if (!value) return resolve();
+                var regNo = value.toUpperCase().replace("HL-C", "HLC");
+                ApiService.list('aircraft', {search : {reg_no: regNo, reg_status: 'REG'}}).then(function (results) {
+                    if (results.data.count > 0) {
+                        $scope.aircraft = results.data.result[0];
+                        if ($scope.aircraft.lsa_category == 'LSA')
+                            $scope.regLabel = "등록부호";
+                        else
+                            $scope.regLabel = "신고번호";
+                        $scope.reg_no = $scope.aircraft.reg_no;
+                        console.log('$scope.reg_no: ', $scope.reg_no);
+                        resolve();
+                    }
+                    else
+                        reject();
+                }, function (err) {
+                    resolve();
+                });     
+            });
+        }
+
+        $scope.save = function () {
+            $modalInstance.close({aircraft: $scope.aircraft, ins_type: $scope.ins_type, type: $scope.type, date_pub: $scope.date_pub});
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    });;

@@ -5,6 +5,7 @@ angular.module('insApp', [
   'ngResource',
   'ngSanitize',
   'ngAnimate',
+  'ngStorage',
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
@@ -19,6 +20,8 @@ angular.module('insApp', [
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
       $urlRouterProvider
         .when("/aircraft", "/aircraft/list")
+        .when("/flightsafety", "/flightsafety/list")
+        .when("/inspection", "/inspection/list")
         .otherwise('/');
 
     $locationProvider.html5Mode(true);

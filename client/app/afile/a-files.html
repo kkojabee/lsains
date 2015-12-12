@@ -1,6 +1,10 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">첨부파일</div>
-    <table class="table table-condensed afile-table">
+    <div class="panel-heading">
+        <a href="#afile-collapse" ng-click="afileCollapse = !afileCollapse" ng-class="{'collapsed':afileCollapse,'expanded':!afileCollapse}">
+            첨부파일
+        </a>
+    </div>
+    <table id="afile-collapse" ng-init="afileCollapse=false" collapse="afileCollapse" class="table table-condensed afile-table">
         <thead>
             <tr>
                 <!-- <td colspan="2">
@@ -23,7 +27,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <tr ng-hide="afiles.length < 1">
                 <th ng-click="fileSort('selected')">선택
                     <span class="glyphicon sort-icon" ng-show="fileSortKey=='selected'" ng-class="{'glyphicon-chevron-up':fileReverse,'glyphicon-chevron-down':!fileReverse}"></span>
                 </th>
@@ -38,8 +42,8 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
-            <tr dir-paginate="item in afiles|orderBy:fileSortKey:fileReverse|filter:fileSearch|itemsPerPage:1">
+        <tbody ng-hide="afiles.length < 1">
+            <tr dir-paginate="item in afiles|orderBy:fileSortKey:fileReverse|filter:fileSearch|itemsPerPage:10">
                 <td class="col-sm-1">
                     <input name="chkbox" type="checkbox" ng-model="item.selected" class="form-control input-sm" />
                     <label for="chkbox" class="sr-only"></label>
@@ -56,7 +60,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot>
+        <tfoot ng-hide="afiles.length < 1">
             <tr>
                 <td colspan="4" class="text-center">
                     <dir-pagination-controls max-size="9" direction-links="true" boundary-links="true"/>

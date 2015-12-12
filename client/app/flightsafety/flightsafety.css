@@ -1,0 +1,19 @@
+.list-table td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+.sbtype {
+    min-width: 50px;
+}
+.sbno {
+    min-width: 140px;
+}
+.revw {
+	width: 60px;
+}
+.mleft2 {
+	margin-left: 2px;
+}

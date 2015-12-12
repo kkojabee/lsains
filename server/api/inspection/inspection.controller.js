@@ -13,6 +13,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var inspection = require('./inspection.model');
 var afile = require('../afile/afile.model');
+var helper = require('../base/helper');
 var popQuery = [
                 { path: '_afiles', model: 'AFile' },
                 { path: '_aimages', model: 'AFile'}];
@@ -56,9 +57,17 @@ exports.show = function(req, res) {
     });
 };
 
+var unpopulateInspection = function (body) {
+    helper.unpopafile(body);
+    
+    helper.upoparray(body, '_certs');
+    helper.upoparray(body, '_maintenances');
+    helper.unpopids(body, ['_aircraft', '_insgroup', '_income']);
+}
+
 // Creates a new inspection in the DB.
 exports.create = function (req, res) {
-    unpopulateinspection(req.body);
+    unpopulateInspection(req.body);
     inspection.create(req.body, function (err, data) {
         if (err) { return handleError(res, err); }
         inspection.populate(data, popQuery, function (err, data) {
@@ -69,28 +78,10 @@ exports.create = function (req, res) {
     });
 };
 
-var unpopulateinspection = function (body) {
-    console.info('body: ', body);
-    if (body._afiles) {
-        var afiles = [];
-        body._afiles.forEach(function (afile) {
-            afiles.push(mongoose.Types.ObjectId(afile._id));
-        });
-        body._afiles = afiles;
-    }
-    if (body._aimages) {
-        var aimages = [];
-        body._aimages.forEach(function (aimage) {
-            aimages.push(mongoose.Types.ObjectId(aimage._id));
-        });
-        body._aimages = aimages;
-    }
-}
-
 // Updates an existing inspection in the DB.
 exports.update = function (req, res) {
     if (req.body._id) { delete req.body._id; }
-    unpopulateinspection(req.body);
+    unpopulateInspection(req.body);
 
     inspection.findById(req.params.id).exec(function (err, data) {
         if (err) { console.log('inspection update error: ', err); return handleError(res, err); }

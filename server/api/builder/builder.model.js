@@ -10,6 +10,7 @@ var BuilderSchema = Person.Schema;
 
 BuilderSchema.pre('save', function(next) {
   var doc = this;
+
   // must add model eventno _id before use model scema !!
   EventNo.findByIdAndUpdate(model, { $inc: { event_no: 1 } }, function (err, eventno) {
     if (err || eventno == null) {
@@ -21,5 +22,12 @@ BuilderSchema.pre('save', function(next) {
     }
   });
 });
+
+BuilderSchema.pre('remove', function (next) {
+    Person.delAFiles(this, function() {
+        next();
+    });
+});
+
 
 module.exports = mongoose.model('Builder', BuilderSchema);
