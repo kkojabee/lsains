@@ -19,6 +19,7 @@ angular.module('insApp')
         ApiService.async('product'), 
         ApiService.async('aircraft'),
         ApiService.async('owner'),
+        ApiService.async('certificate')
     ]).then(function(response) {
         angular.forEach(response, function(data) {
             $scope.results[data.type] = data.result;
@@ -29,6 +30,7 @@ angular.module('insApp')
         $scope.products = $scope.results['product'];
         $scope.aircrafts = $scope.results['aircraft'];
         $scope.owners  = $scope.results['owner'];
+        $scope.certificates  = $scope.results['certificate'];
         
         setModelFilterData();
         $scope.loadingError = null;
@@ -145,6 +147,10 @@ angular.module('insApp')
                     aircraft._owner = _.find($scope.owners, { _id: aircraft._owner._id });
             }
         };
+
+        var getCertificates = function(aircraft) {
+            aircraft._certificates =  _.sortBy(_.find($scope.certificates, { _aircraft: aircraft._id }), 'date_pub');
+        }
 
         getOwner(aircraft);
         getBuilders(aircraft);

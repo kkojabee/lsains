@@ -2,9 +2,11 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
+    Async = require('async'),
     BaseSchema = require('../base/base.model'), 
     EventNo = require('../base/eventno.model'),
     Manufacturer = require('../manufacturer/manufacturer.model'),
+    FlgihtSafety = require('../flightsafety/flightsafety.model'),
     Enums = require('../base/enums');
 
 var model = 'product';
@@ -34,11 +36,16 @@ ProductSchema.virtual('full_name').get(function () {
         (this.revision ? ' ' + this.revision : '') +
         (this._manufacturer && this._manufacturer._id !== undefined ? ' (' + this._manufacturer.name + ')' : '');
 });
+ProductSchema.virtual('model_name').get(function () {
+  return this.model +
+        (this.sub_model ? ' ' + this.sub_model : '');
+});
 ProductSchema.set('toObject', { virtuals: true })
 ProductSchema.set('toJSON', { virtuals: true });
 
 ProductSchema.pre('save', function (next) {
     var doc = this;
+    
     // must add model eventno _id before use model schema !!
     EventNo.findByIdAndUpdate(model, { $inc: { event_no: 1} }, function (err, eventno) {
         if (err || eventno == null) {
@@ -48,6 +55,17 @@ ProductSchema.pre('save', function (next) {
             doc.event_no = eventno.event_no;
             next();
         }
+    });
+});
+
+ProductSchema.pre('remove', function (next) {
+    BaseSchema.delAFiles(this, function() {
+      doc.model('FlightSafety').update(
+        { _products: doc._id },
+        { $pull: { _products: doc._id }},
+        { multi: true },
+        next
+      );
     });
 });
 

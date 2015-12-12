@@ -7,6 +7,8 @@ angular.module('insApp')
         { 'title': 'Manufacturers', 'link': '/manufacturer' },
         { 'title': 'Products', 'link': '/product' },
         { 'title': 'Aircrafts', 'link': '/aircraft/list' },
+        { 'title': 'FlightSafety', 'link': '/flightsafety/list' },
+        { 'title': 'Certificate', 'link': '/certificate/list' },
         { 'title': 'AFiles', 'link': '/afile' },
         { 'title': 'Dialogs', 'link': '/dialog' },
       ];

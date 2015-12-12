@@ -13,6 +13,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var aircraft = require('../aircraft/aircraft.model');
 var owner = require('./owner.model');
+var helper = require('../base/helper');
 
 var popQuery = null;
 
@@ -52,17 +53,23 @@ exports.show = function(req, res) {
   });
 };
 
+var unpopulateOwner = function (body) {
+    helper.unpopafile(body);
+}
+
 // Creates a new owner in the DB.
 exports.create = function (req, res) {
-    owner.create(req.body, function (err, owner) {
-        if (err) { return handleError(res, err); }
-        return res.json(201, owner);
-    });
+  unpopulateOwner(req.body);
+  owner.create(req.body, function (err, owner) {
+      if (err) { return handleError(res, err); }
+      return res.json(201, owner);
+  });
 };
 
 // Updates an existing owner in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
+  unpopulateOwner(req.body);
   owner.findById(req.params.id, function (err, owner) {
     if (err) { return handleError(res, err); }
     if(!owner) { return res.send(404); }

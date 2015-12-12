@@ -17,8 +17,12 @@ module.exports = function (app) {
     app.use('/api/components', require('./api/component'));
     app.use('/api/aircrafts', require('./api/aircraft'));
     app.use('/api/afiles', require('./api/afile'));
-    app.use('/api/inspections', require('./api/inspection'));
     app.use('/api/owners', require('./api/owner'));
+    app.use('/api/inspections', require('./api/inspection'));
+    app.use('/api/insgroups', require('./api/insgroup'));
+    app.use('/api/certificates', require('./api/certificate'));
+    app.use('/api/flightsafeties', require('./api/flightsafety'));
+    app.use('/api/maintenances', require('./api/maintenance'));
 
     app.use('/auth', require('./auth'));
 

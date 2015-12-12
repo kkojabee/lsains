@@ -22,6 +22,7 @@ OwnerSchema.set('toJSON', { virtuals: true });
 
 OwnerSchema.pre('save', function(next) {
   var doc = this;
+
   // must add model eventno _id befor use model scema !!
   EventNo.findByIdAndUpdate(model, { $inc: { event_no: 1 } }, function (err, eventno) {
     if (err || eventno == null) {
@@ -32,6 +33,12 @@ OwnerSchema.pre('save', function(next) {
         next();
     }
   });
+});
+
+OwnerSchema.pre('remove', function (next) {
+    Person.delAFiles(this, function() {
+        next();
+    });
 });
 
 module.exports = mongoose.model('Owner', OwnerSchema);

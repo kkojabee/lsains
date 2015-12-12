@@ -1,0 +1,73 @@
+﻿<div class="container">
+  <div ng-show="dataLoading" class="text-center">
+    <h4>Aircraft Data Loading...</h4>
+  </div>
+  <div class="loading-spiner-holder"  class="text-center" data-loading >
+    <button class="btn btn-success">Aircraft Data Loading...
+        <i class="fa fa-spinner fa-spin"></i>
+    </button>
+  </div>
+  <div ng-show="!dataLoading">
+    <table class="table">
+      <thead>
+          <tr>
+            <td colspan="6">
+              <div class="form-inline">
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="chkRgl" ng-model="chkRgl" ng-init="chkRgl=true">정식
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="chkTmp" ng-model="chkTmp" ng-init="chkTmp=true">임시
+                </label>
+                <button type="button" class="btn btn-sm btn-primary pull-right" ng-click="addCertificate()">
+                  <span class="glyphicon glyphicon-plus"></span>&nbsp새인증서
+                </button>
+                <input id="ceQuery" ng-model="ceQuery" class="input-sm form-control pull-right" placeholder="검색" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th ng-click="ceSort('cert_no')">번호
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='cert_no'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+            <th ng-click="ceSort('type')">종류
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='type'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+            <th ng-click="ceSort('_aircraft.reg_no')">등록부호
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='_aircraft.reg_no'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+            <th ng-click="ceSort('_aircraft.model')">형식
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='_aircraft.model'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+            <th ng-click="ceSort('valid')">상태
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='valid'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+            <th ng-click="ceSort('date_end')">만료일자
+              <span class="glyphicon sort-icon" ng-show="ceSortKey=='date_end'" ng-class="{'glyphicon-chevron-up':ceReverse,'glyphicon-chevron-down':!ceReverse}"></span>
+            </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr dir-paginate="row in certificates|filter:ceSearch|filter:ceType|orderBy:ceSortKey:ceReverse|itemsPerPage:10">
+          <td>
+            <a ui-sref="certificate.detail" ng-click="showCertificate(row)">
+              <span ng-bind-html="row.cert_no | fstrong:ceQuery"/>
+            </a>
+          </td>
+          <td>{{enums.getCertTypeString(row.type)}}</td>
+          <td>{{row._aircraft.reg_no | fstrong:ceQuery  | lsaRegNo}}</td>
+          <td>{{row._aircraft.model | fstrong:ceQuery}}</td>
+          <td>{{getCertStatusString(row)}}</td>
+          <td>{{row.date_end}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+          <tr>
+            <td colspan="6" class="text-center">
+              <dir-pagination-controls max-size="9" direction-links="true" boundary-links="true" />
+            </td>
+          </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

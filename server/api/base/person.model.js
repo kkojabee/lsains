@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     BaseSchema = require('./base.model'), 
     Schema = mongoose.Schema;
 
-var personSchema = BaseSchema.add({
+var personDef = {
   name: { type: String, required: true, trim: true },
   address: { type: String, trim: true },
   url: { type: String, trim: true },
@@ -14,7 +14,9 @@ var personSchema = BaseSchema.add({
   fax: { type: String, trim: true },
   company:  { type: String, trim: true },
   mobile: { type: String, trim: true }
-});
+};
+
+var personSchema = BaseSchema.add(personDef);
 
 exports.add = function(add) {
     if (add) {
@@ -24,3 +26,6 @@ exports.add = function(add) {
 };
 
 exports.Schema = personSchema;
+exports.Def = personDef;
+exports.delAFiles = BaseSchema.delAFiles;
+exports.unPopulateAFile = BaseSchema.unPopulateAFile;

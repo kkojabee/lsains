@@ -1,0 +1,194 @@
+<div class="certificate-detail">
+    <h2>{{getCertTitle()}} ({{aircraft.reg_no | lsaRegNo}})</h2>
+    <form name="form" class="detail-form form-horizontal">
+        <fieldset>
+            <div class="panel panel-default form-group">
+                <div class="panel-heading">
+                    <a href="#input-collapse" ng-click="inputCollapse = !inputCollapse" ng-class="{'collapsed':inputCollapse,'expanded':!inputCollapse}">
+                        인증정보
+                    </a>
+                </div>
+                <table id="input-collapse" ng-init="inputCollapse=false" collapse="inputCollapse" class="table table-bordered table-condensed">
+                    <tbody>
+                        <tr class="form-group">
+                            <td>
+                                <label for="valid" class="control-label">유효상태</label>
+                            </td>
+                            <td>
+                                <select name="valid" ng-model="certificate.valid" ng-options="o.v as o.n for o in [{ n: '유효', v: true }, { n: '무효', v: false }]" class="form-control"/>
+                                <select name="invalid_type" ng-init="enums.invalidTypes[0].value" ng-model="certificate.invalid_type" ng-options="invalidTypes.value as invalidTypes.label for invalidTypes in enums.invalidTypes" class="form-control" ng-hide="certificate.valid"></select>
+                            </td>
+                            <td>
+                                <label for="cert_no" class="control-label">교부번호</label>
+                            </td>
+                            <td colspan="4" ng-class="{'has-error': form.cert_no.$invalid, 'has-success': !form.cert_no.$invalid}">
+                                <input type="text" name="cert_no" class="form-control input-sm" value="{{certificate.cert_no}}" placeholder="TL15-000" ng-model="certificate.cert_no" ng-pattern="/^TL[\d]{2}\-[\d]{3}$/i" ui-validate-async="{certnocheck: 'certNoCheckAsync($modelValue)'}" required />
+                                <div class="error-container" ng-disabled="form.cert_no.$dirty && form.cert_no.$invalid">
+                                    <small class="help-block error" ng-show="form.cert_no.$dirty && form.cert_no.$error.required || form.cert_no.$error.pattern">정확한 인증서번호를 입력하여 주십시오(예: KL15-001 등)</small>
+                                    <small class="help-block error" ng-show="form.pubno.$error.certnocheck">이미 등록된 인증서 번호입니다.</small>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="eg_model" class="control-label">발동기형식</label>
+                            </td>
+                            <td colspan="3" class="col-sm-8">
+                                <input type="text" name="eg_model" class="form-control input-sm" placeholder="엔진 형식명" ng-model="certificate.eg_model" />
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="date_start" class="control-label">시작일자</label>
+                            </td>
+                            <td class="col-sm-4" ng-class="{'has-error': form.date_start.$invalid, 'has-success': !form.date_start.$invalid}">
+                                <input type="text" name="date_start" class="form-control" ng-model="certificate.date_start" placeholder="yyyy-MM-dd" ng-pattern="/^20\d{2}\-\d{2}\-\d{2}$/" ng-change="dateChange()" ui-validate="{dcheck: 'dateCheck($value)'}" required />
+                                <div class="error-container">
+                                    <small class="help-block error" ng-show="form.date_start.$dirty && form.date_start.$invalid">정확한 시작일자를 입력하여 주십시오(예: {{today}})</small>
+                                </div>
+                            </td>
+                            <td class="col-sm-2">
+                                <label for="date_end" class="control-label">만료일자</label>
+                            </td>
+                            <td class="col-sm-4" ng-class="{'has-error': form.date_end.$invalid, 'has-success': !form.date_end.$invalid}">
+                                <input type="text" name="date_end" class="form-control" ng-model="certificate.date_end" placeholder="yyyy-MM-dd" ng-pattern="/^20\d{2}\-\d{2}\-\d{2}$/" ui-validate="{dcheck: 'dateCheck($value)'}" required />
+                                <div class="error-container">
+                                    <small class="help-block error" ng-show="form.date_end.$dirty && form.date_end.$invalid">정확한 만료일자를 입력하여 주십시오(예: {{nextYM1}})</small>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="date_pub" class="control-label">교부일자</label>
+                            </td>
+                            <td  colspan="3" class="col-sm-8" ng-class="{'has-error': form.date_.$invalid, 'has-success': !form.date_pub.$invalid}">
+                                <input type="text" name="date_pub" class="form-control" ng-model="certificate.date_pub" placeholder="yyyy-MM-dd" ng-pattern="/^20\d{2}\-\d{2}\-\d{2}$/" ng-change="datePubTmpChange()" ui-validate="{dcheck: 'dateCheck($value)'}" required />
+                                <div class="error-container">
+                                    <small class="help-block error" ng-show="form.date_pub.$dirty && form.date_pub.$invalid">정확한 교부일자를 입력하여 주십시오(예: {{today}})</small>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td>
+                                <label for="fpath" class="control-label">비행경로</label>
+                            </td>
+                            <td colspan="3" ng-class="{'has-error': form.fpath.$invalid, 'has-success': !form.fpath.$invalid}">
+                                <input type="text" name="fpath" class="form-control" ng-model="certificate.fpath" placeholder="비행 경로를 입력하여 주십시오..." required />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel panel-default form-group">
+                <div class="panel-heading">
+                    <a href="#cert-collapse" ng-click="certCollapse = !certCollapse" ng-class="{'collapsed':certCollapse,'expanded':!certCollapse}">
+                        인증서
+                    </a>
+                </div>
+                <table id="cert-collapse" ng-init="certCollapse=false" collapse="certCollapse" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr class="form-group">
+                            <td colspan="4" align="right">
+                                <strong>인증서 번호 : {{certificate.cert_no}}</strong>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="lsa_type" class="control-label">종류</label>
+                            </td>
+                            <td class="col-sm-4">{{getAircraftTypeString()}}</td>
+                            <td class="col-sm-2">
+                                <label for="reg_no" class="control-label">{{regLabel}}</label>
+                            </td>
+                            <td class="col-sm-4">{{aircraft.reg_no | lsaRegNo}}</td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="model" class="control-label">형식</label>
+                            </td>
+                            <td class="col-sm-4">{{aircraft.model}}</td>
+                            <td class="col-sm-2">
+                                <label for="eg_model" class="control-label">발동기형식</label>
+                            </td>
+                            <td class="col-sm-4">
+                                {{certificate.eg_model}}
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="sn" class="control-label">제작번호</label>
+                            </td>
+                            <td class="col-sm-4">{{aircraft.sn}}</td>
+                            <td class="col-sm-2">
+                                <label for="mfg_date" class="control-label">제작일자</label>
+                            </td>
+                            <td class="col-sm-4">{{aircraft.mfg_date}}</td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="bld_asm_address" class="control-label">주소</label>
+                            </td>
+                            <td colspan="3" class="col-sm-8">
+                                {{aircraft._bld_asm.address}}
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="bld_asm_name" class="control-label">제작자</label>
+                            </td>
+                            <td colspan="3" class="col-sm-8">
+                                {{aircraft._bld_asm.name}}
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="bld_kit_name" class="control-label">키트제작자</label>
+                            </td>
+                            <td colspan="3" class="col-sm-8">
+                                {{aircraft._bld_kit.name}}
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td class="col-sm-2">
+                                <label for="date_end" class="control-label">인증서만료일</label>
+                            </td>
+                            <td colspan="3" class="col-sm-8">
+                                {{certificate.date_start}} - {{certificate.date_end}}
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td>
+                                <label for="etc" class="control-label">비고</label>
+                            </td>
+                            <td colspan="3" ng-class="{'has-error': form.fpath.$invalid, 'has-success': !form.fpath.$invalid}">
+                                <div>1. 비행경로 : {{certificate.fpath}}</div>
+                                <div>2. 경량항공기 안전성인증 목적에 한함.</div>
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td colspan="4">
+                                위의 경량항공기는 항공법 제24조제2항ㆍ제3항 및 같은 법 시행규칙 제68조의4제3항부터 제5항, 경량항공기 안전성인증검사업무 운영세칙 제18조의 규정에 따라 임시로 안전성인증을 받았음을 증명합니다.
+                            </td>
+                        </tr>
+                        <tr class="form-group">
+                            <td colspan="4" align="center">
+                                {{certificate.date_pub}}
+                                <br>교통안전공단 이사장
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-controller="AFileCtrl" ng-init="init(afiles)" class="form-group">
+                <a-files></a-files>
+            </div>
+            <div class="input-group-btn3 text-center">
+                <a ui-sref="certificate.list" class="btn btn-sm btn-info" role="button"><span class="glyphicon glyphicon-list"/>목록으로</a>
+                <button type="submit" class="btn btn-sm btn-primary" ng-click="updateCertificate(certificate)" ng-disabled="form.$invalid || saving"><span class="glyphicon glyphicon-floppy-disk"/>{{txtSubmit}}<i class="fa fa-spinner fa-spin" ng-show="saving"></i></button>
+                <button type="submit" class="btn btn-sm btn-danger" ng-click="deleteCertificate(certificate)" ng-disabled="form.$invalid || saving"><span class="glyphicon glyphicon-trash"/>삭제</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

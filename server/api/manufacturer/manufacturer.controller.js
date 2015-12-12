@@ -13,6 +13,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var product = require('../product/product.model');
 var manufacturer = require('./manufacturer.model');
+var helper = require('../base/helper');
 
 var popQuery = null;
 
@@ -52,8 +53,13 @@ exports.show = function(req, res) {
   });
 };
 
+var unpopulateManufacturer = function (body) {
+    helper.unpopafile(body);
+}
+
 // Creates a new manufacturer in the DB.
 exports.create = function (req, res) {
+    unpopulateManufacturer(req.body);
     manufacturer.create(req.body, function (err, manufacturer) {
         if (err) { return handleError(res, err); }
         return res.json(201, manufacturer);
@@ -63,6 +69,7 @@ exports.create = function (req, res) {
 // Updates an existing manufacturer in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
+  unpopulateManufacturer(req.body);
   manufacturer.findById(req.params.id, function (err, manufacturer) {
     if (err) { return handleError(res, err); }
     if(!manufacturer) { return res.send(404); }

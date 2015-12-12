@@ -11,6 +11,7 @@ var ManufacturerSchema = Person.Schema;
 
 ManufacturerSchema.pre('save', function(next) {
   var doc = this;
+
   // must add model eventno _id befor use model scema !!
   EventNo.findByIdAndUpdate(model, { $inc: { event_no: 1 } }, function (err, eventno) {
     if (err || eventno == null) {
@@ -21,6 +22,12 @@ ManufacturerSchema.pre('save', function(next) {
         next();
     }
   });
+});
+
+ManufacturerSchema.pre('remove', function (next) {
+    Person.delAFiles(this, function() {
+        next();
+    });
 });
 
 module.exports = mongoose.model('Manufacturer', ManufacturerSchema);

@@ -1,0 +1,43 @@
+<div class="modal-header dialog-header-confirm">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title"><span class="glyphicon glyphicon-check"></span>&nbsp;인증서 추가</h4>
+</div>
+<div class="modal-body">        
+    <form name="cform" class="form-horizontal" role="form">      
+        <div class="form-group" ng-class="{'has-error': cform.reg_no.$invalid, 'has-success': !cform.reg_no.$invalid}">
+            <label for="reg_no" class="control-label col-sm-2">{{regLabel}}</label>
+            <div class="col-sm-10">
+                <input type="text" name="reg_no" class="form-control" value="{{reg_no | lsaRegNo}}" placeholder="{{regLabel}}" ng-model="reg_no" ng-change="regNoChange(reg_no)" ui-validate-async="{regcheck: 'regExistCheckAsync($modelValue)'}" ng-disable="d_reg_no" ng-pattern="/^(((HLC|HL-C)[\d]{3})|((S|B|J)[\d]{1}[a-zA-Z0-9]{4,5}))$/i" required />
+                <div class="error-container" ng-show="cform.reg_no.$dirty && cform.reg_no.$invalid">
+                    <small class="help-block error" ng-show="cform.reg_no.$error.required || cform.reg_no.$error.pattern">정확한 등록부호를 입력하여 주십시오(예: HL-C001 등)</small>
+                    <small class="help-block error" ng-show="cform.reg_no.$error.regcheck">해당 기체를 찾을 없습니다</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="ins_type" class="control-label col-sm-2">검사종류</label>
+            <div class="col-sm-10">
+                <select name="ins_type" ng-model="ins_type" ng-options="insType.value as insType.label for insType in enums.insTypes" ng-disable="d_ins_type" class="form-control" required></select>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="type" class="control-label col-sm-2">인증종류</label>
+            <div class="col-sm-10">
+                <select name="type" ng-model="type" ng-options="certType.value as certType.label for certType in enums.certTypes" class="form-control" required></select>
+            </div>
+        </div>
+        <div class="form-group"> 
+            <label for="date_pub" class="control-label col-sm-2">교부일자</label>
+            <div class="col-sm-4" ng-class="{'has-error': cform.date_pub.$invalid, 'has-success': !cform.date_pub.$invalid}">
+                <input type="text" name="date_pub" class="form-control" ng-model="date_pub" placeholder="yyyy-MM-dd" ng-pattern="/^20\d{2}\-\d{2}\-\d{2}$/" required />
+                <div class="error-container">
+                    <small class="help-block error" ng-show="cform.date_pub.$dirty && cform.date_pub.$error.required || cform.date_pub.$error.pattern">정확한 교부일자를 입력하여 주십시오(예: 2015-01-01)</small>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="cform.$invalid">Add</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+</div>

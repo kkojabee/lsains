@@ -1,4 +1,5 @@
-﻿      <div>
+﻿      <div class="panel panel-default form-group">
+        <div class="panel-heading">항공기사진</div>
         <carousel interval="carouselInterval" style="height: 305px">
           <slide ng-repeat="aimage in aimages" active="aimage.active">
             <img ng-src="/api/afiles/down/{{aimage._id}}" style="margin:auto;height: 305px" alt="aircraft image"/>
